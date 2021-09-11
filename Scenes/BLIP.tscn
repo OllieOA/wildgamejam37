@@ -1,0 +1,67 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://Assets/Art/BLIP_sprite_sheet.png" type="Texture" id=2]
+[ext_resource path="res://Scenes/BLIP.gd" type="Script" id=3]
+
+[sub_resource type="Animation" id=1]
+resource_name = "Idle"
+length = 1.2
+loop = true
+step = 0.3
+tracks/0/type = "value"
+tracks/0/path = NodePath("Body:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.3, 0.6, 0.9 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2, 3 ]
+}
+
+[sub_resource type="Animation" id=2]
+length = 0.6
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Body:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ 4, 5, 6 ]
+}
+
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 7.83698, 6.42796 )
+
+[sub_resource type="CircleShape2D" id=4]
+radius = 91.9687
+
+[node name="KinematicBody2D" type="KinematicBody2D"]
+position = Vector2( 44.075, 27.7234 )
+script = ExtResource( 3 )
+
+[node name="Body" type="Sprite" parent="."]
+texture = ExtResource( 2 )
+hframes = 4
+vframes = 2
+frame = 5
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/Idle = SubResource( 1 )
+anims/Run = SubResource( 2 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( -0.983261, 1.49831 )
+shape = SubResource( 3 )
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="reach" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource( 4 )
