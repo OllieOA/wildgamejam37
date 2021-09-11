@@ -1,10 +1,64 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Scenes/BLIP.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/Machine_Miner.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Scenes/Conveyor.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Scenes/Main.gd" type="Script" id=4]
 
 [node name="Main" type="Node2D"]
+script = ExtResource( 4 )
+
+[node name="Machines_Miners" type="Node2D" parent="."]
+
+[node name="Machine_Miner" parent="Machines_Miners" instance=ExtResource( 2 )]
+position = Vector2( 64, 32 )
+
+[node name="Machines_Conveyors" type="Node2D" parent="."]
+
+[node name="Conveyor" parent="Machines_Conveyors" instance=ExtResource( 3 )]
+position = Vector2( 80, 32 )
+
+[node name="Conveyor3" parent="Machines_Conveyors" instance=ExtResource( 3 )]
+position = Vector2( 96, 32 )
+
+[node name="Conveyor4" parent="Machines_Conveyors" instance=ExtResource( 3 )]
+position = Vector2( 104, 32 )
+
+[node name="Conveyor5" parent="Machines_Conveyors" instance=ExtResource( 3 )]
+position = Vector2( 112, 32 )
+
+[node name="Conveyor6" parent="Machines_Conveyors" instance=ExtResource( 3 )]
+position = Vector2( 120, 32 )
+
+[node name="Conveyor7" parent="Machines_Conveyors" instance=ExtResource( 3 )]
+position = Vector2( 128, 32 )
+
+[node name="Conveyor8" parent="Machines_Conveyors" instance=ExtResource( 3 )]
+position = Vector2( 144, 32 )
+rotation = 1.5708
+
+[node name="Conveyor9" parent="Machines_Conveyors" instance=ExtResource( 3 )]
+position = Vector2( 144, 40 )
+rotation = 1.5708
+
+[node name="Conveyor10" parent="Machines_Conveyors" instance=ExtResource( 3 )]
+position = Vector2( 144, 48 )
+rotation = 1.5708
+
+[node name="Conveyor11" parent="Machines_Conveyors" instance=ExtResource( 3 )]
+position = Vector2( 144, 56 )
+rotation = 1.5708
+
+[node name="Conveyor12" parent="Machines_Conveyors" instance=ExtResource( 3 )]
+position = Vector2( 144, 64 )
+rotation = 1.5708
+
+[node name="Conveyor13" parent="Machines_Conveyors" instance=ExtResource( 3 )]
+position = Vector2( 144, 72 )
+rotation = 1.5708
+
+[node name="Conveyor2" parent="Machines_Conveyors" instance=ExtResource( 3 )]
+position = Vector2( 88, 32 )
 
 [node name="BLIP" parent="." instance=ExtResource( 1 )]
 position = Vector2( 160, 90 )
@@ -14,9 +68,3 @@ position = Vector2( -160, -90 )
 anchor_mode = 0
 current = true
 zoom = Vector2( 0.25, 0.25 )
-
-[node name="Machine_Miner" parent="." instance=ExtResource( 2 )]
-position = Vector2( 64, 32 )
-
-[node name="Conveyor" parent="." instance=ExtResource( 3 )]
-position = Vector2( 80, 32 )

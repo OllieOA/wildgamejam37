@@ -2,11 +2,15 @@ extends KinematicBody2D
 
 var speed = 100.0
 
+var external_velocity = Vector2.ZERO
+var conveyor_speed = 0.2
+export var belt_dict = {}
+
 # Get nodes
 onready var sprite_body = $Body
 onready var animator = $AnimationPlayer
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	""" Walking section
 		Here, there is an animation component, which is handled by flipping the
 		sprite sheet depending on the direction	
@@ -29,7 +33,17 @@ func _physics_process(delta):
 		animator.play("Idle")
 
 	velocity = velocity.normalized()
-	move_and_slide(velocity * speed)
+	# Check if there is any velocity force on the player
+	var belt_check_velocity = Vector2.ZERO
+	if belt_dict.empty():
+		belt_check_velocity = Vector2.ZERO
+	else:
+		for key in belt_dict.keys():
+			belt_check_velocity += belt_dict[key]
+	
+	external_velocity = belt_check_velocity.normalized() * conveyor_speed
+	
+	move_and_slide((velocity + external_velocity) * speed)
 
 
 func _check_if_idle() -> bool:
