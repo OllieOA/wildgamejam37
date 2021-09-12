@@ -77,6 +77,7 @@ right={
 2d_physics/layer_4="machines"
 2d_physics/layer_5="units_mineable"
 2d_physics/layer_6="units_processing"
+2d_physics/layer_7="arby"
 
 [physics]
 

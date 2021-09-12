@@ -1,14 +1,14 @@
 [gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://Assets/Art/unit_mineable.png" type="Texture" id=1]
+[ext_resource path="res://Assets/Art/Units/unit_mineable.png" type="Texture" id=1]
 [ext_resource path="res://Scenes/Bit_Minable.gd" type="Script" id=2]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 3.48321, 3.48429 )
+extents = Vector2( 3.91679, 3.9573 )
 
 [node name="Bit_Minable" type="KinematicBody2D"]
 collision_layer = 16
-collision_mask = 4
+collision_mask = 52
 script = ExtResource( 2 )
 
 [node name="Sprite" type="Sprite" parent="."]
@@ -23,5 +23,4 @@ position = Vector2( 5, 5 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 4, 4 )
-scale = Vector2( 1, 1 )
 shape = SubResource( 1 )

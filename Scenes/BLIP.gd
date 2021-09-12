@@ -8,6 +8,7 @@ var conveyor_speed = 0.3
 export var belt_list = [] # For determining the order in which belts are seen
 export var belt_dict = {} # For determining the velocity of a keyed belt
 export var display_velocity = Vector2.ZERO
+export var curr_position = Vector2.ZERO
 
 # Get nodes
 onready var sprite_body = $Body
@@ -46,6 +47,8 @@ func _physics_process(_delta):
 	var move_and_slide_velocity = (velocity + external_velocity) * speed
 	move_and_slide(move_and_slide_velocity)
 	display_velocity = move_and_slide_velocity
+	
+	curr_position = self.global_position
 
 
 func check_external_velocity(external_belt_list, external_belt_dict) -> Vector2:

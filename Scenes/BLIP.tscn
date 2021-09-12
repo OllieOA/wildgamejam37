@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=2]
 
-[ext_resource path="res://Assets/Art/BLIP_sprite_sheet.png" type="Texture" id=2]
+[ext_resource path="res://Assets/Art/Characters/BLIP_sprite_sheet.png" type="Texture" id=2]
 [ext_resource path="res://Scenes/BLIP.gd" type="Script" id=3]
 
 [sub_resource type="Animation" id=1]
@@ -51,6 +51,7 @@ script = ExtResource( 3 )
 
 [node name="Body" type="Sprite" parent="."]
 texture = ExtResource( 2 )
+centered = false
 hframes = 4
 vframes = 2
 frame = 5
@@ -60,11 +61,11 @@ anims/Idle = SubResource( 1 )
 anims/Run = SubResource( 2 )
 
 [node name="Feet_collision" type="CollisionShape2D" parent="."]
-position = Vector2( 0, 6.18887 )
+position = Vector2( 12, 18 )
 shape = SubResource( 3 )
 
 [node name="Reach" type="Area2D" parent="."]
 
 [node name="Reach_collision" type="CollisionShape2D" parent="Reach"]
-visible = false
+position = Vector2( 12, 12 )
 shape = SubResource( 4 )
