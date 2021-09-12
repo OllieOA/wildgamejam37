@@ -21,11 +21,11 @@ tracks/0/keys = {
 }
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 2.06418, 2.09239 )
+extents = Vector2( 3.88377, 3.9017 )
 
 [node name="Conveyor" type="Area2D"]
 collision_layer = 4
-collision_mask = 2
+collision_mask = 50
 script = ExtResource( 2 )
 
 [node name="Sprite" type="Sprite" parent="."]
@@ -39,6 +39,9 @@ anims/Convey = SubResource( 1 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 4, 4 )
 shape = SubResource( 2 )
+
+[node name="belt_centre" type="Position2D" parent="."]
+position = Vector2( 4, 4 )
 
 [connection signal="body_entered" from="." to="." method="_on_Conveyor_body_entered"]
 [connection signal="body_exited" from="." to="." method="_on_Conveyor_body_exited"]

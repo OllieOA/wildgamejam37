@@ -71,10 +71,12 @@ right={
 
 [layer_names]
 
-2d_physics/layer_1="bits"
+2d_physics/layer_1="nothing"
 2d_physics/layer_2="player"
 2d_physics/layer_3="belts"
 2d_physics/layer_4="machines"
+2d_physics/layer_5="units_mineable"
+2d_physics/layer_6="units_processing"
 
 [physics]
 

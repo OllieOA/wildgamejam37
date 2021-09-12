@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Scenes/BLIP.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/Machine_Miner.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Scenes/Conveyor.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Scenes/Main.gd" type="Script" id=4]
+[ext_resource path="res://Scenes/Bit_Minable.tscn" type="PackedScene" id=5]
 
 [node name="Main" type="Node2D"]
 script = ExtResource( 4 )
@@ -68,3 +69,10 @@ position = Vector2( -160, -90 )
 anchor_mode = 0
 current = true
 zoom = Vector2( 0.25, 0.25 )
+
+[node name="Bit_Buildables" type="Node2D" parent="."]
+
+[node name="Bit_Minables" type="Node2D" parent="."]
+
+[node name="Bit_Minable" parent="." instance=ExtResource( 5 )]
+position = Vector2( 80, 32 )

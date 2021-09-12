@@ -3,12 +3,19 @@ extends KinematicBody2D
 var speed = 100.0
 
 var external_velocity = Vector2.ZERO
-var conveyor_speed = 0.2
-export var belt_dict = {}
+# TODO - get this conveyor speed from the conveyor scene object
+var conveyor_speed = 0.3
+export var belt_list = [] # For determining the order in which belts are seen
+export var belt_dict = {} # For determining the velocity of a keyed belt
+export var display_velocity = Vector2.ZERO
 
 # Get nodes
 onready var sprite_body = $Body
 onready var animator = $AnimationPlayer
+
+func _ready():
+	animator.play("Idle")
+
 
 func _physics_process(_delta):
 	""" Walking section
@@ -34,16 +41,22 @@ func _physics_process(_delta):
 
 	velocity = velocity.normalized()
 	# Check if there is any velocity force on the player
-	var belt_check_velocity = Vector2.ZERO
-	if belt_dict.empty():
-		belt_check_velocity = Vector2.ZERO
+	var external_direction = check_external_velocity(belt_list, belt_dict)
+	external_velocity = external_direction * conveyor_speed
+	var move_and_slide_velocity = (velocity + external_velocity) * speed
+	move_and_slide(move_and_slide_velocity)
+	display_velocity = move_and_slide_velocity
+
+
+func check_external_velocity(external_belt_list, external_belt_dict) -> Vector2:
+	var belt_check_direction = Vector2.ZERO
+	if external_belt_list.empty():
+		return belt_check_direction
 	else:
-		for key in belt_dict.keys():
-			belt_check_velocity += belt_dict[key]
-	
-	external_velocity = belt_check_velocity.normalized() * conveyor_speed
-	
-	move_and_slide((velocity + external_velocity) * speed)
+		var current_active_belt = external_belt_list[0]
+		belt_check_direction = external_belt_dict[current_active_belt]
+	belt_check_direction = belt_check_direction.normalized()
+	return belt_check_direction
 
 
 func _check_if_idle() -> bool:

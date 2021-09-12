@@ -6,7 +6,11 @@
 
 extends Node2D
 var total_ticks = 0
-var tick_time = 0.01
+var tick_time = 0.5
+
+# Get children for debugging
+onready var blip = get_node("BLIP")
+onready var bit = get_node("Bit_Minable")
 
 func _ready():
 	# Establish a tick timer
@@ -18,4 +22,6 @@ func _ready():
 
 
 func _on_Timer_timeout():
+	#print("DEBUG: BLIP VELOCITY is " + str(blip.display_velocity))
+	print("DEBUG: BIT POS is " + str(bit.curr_position))
 	pass
