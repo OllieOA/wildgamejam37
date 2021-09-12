@@ -14,4 +14,3 @@ func _ready():
 	$AnimationPlayer.play("Running")
 	
 	timer.queue_free()
-
