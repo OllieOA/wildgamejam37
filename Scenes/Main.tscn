@@ -1,79 +1,62 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=8 format=2]
 
-[ext_resource path="res://Scenes/BLIP.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Scenes/Machine_Miner.tscn" type="PackedScene" id=2]
-[ext_resource path="res://Scenes/Conveyor.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Scenes/Moving_Entities/BLIP.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Scenes/Machines/Machine_Miner.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Scenes/Machines/Machine_Conveyor.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Scenes/Main.gd" type="Script" id=4]
-[ext_resource path="res://Scenes/Bit_Minable.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Scenes/Moving_Entities/Bit_Minable.tscn" type="PackedScene" id=5]
 [ext_resource path="res://DebugBlock.tscn" type="PackedScene" id=6]
-[ext_resource path="res://Scenes/Arby.tscn" type="PackedScene" id=7]
-[ext_resource path="res://Scenes/Machine_Stacker.tscn" type="PackedScene" id=8]
-[ext_resource path="res://Scenes/Machine_and_Builder.tscn" type="PackedScene" id=9]
-[ext_resource path="res://Scenes/Machine_Flipper.tscn" type="PackedScene" id=10]
-[ext_resource path="res://Scenes/Machine_or_Builder.tscn" type="PackedScene" id=11]
-[ext_resource path="res://Scenes/Machine_Shifter.tscn" type="PackedScene" id=12]
+[ext_resource path="res://Scenes/Moving_Entities/Arby.tscn" type="PackedScene" id=7]
 
 [node name="Main" type="Node2D"]
 script = ExtResource( 4 )
 
-[node name="Machines_Miners" type="Node2D" parent="."]
-
-[node name="Machine_Miner" parent="Machines_Miners" instance=ExtResource( 2 )]
-position = Vector2( 64, 32 )
-
 [node name="Machines_Conveyors" type="Node2D" parent="."]
 
-[node name="Conveyor" parent="Machines_Conveyors" instance=ExtResource( 3 )]
+[node name="Machine_Conveyor" parent="Machines_Conveyors" instance=ExtResource( 3 )]
 position = Vector2( 80, 32 )
 
-[node name="Conveyor2" parent="Machines_Conveyors" instance=ExtResource( 3 )]
+[node name="Machine_Conveyor2" parent="Machines_Conveyors" instance=ExtResource( 3 )]
 position = Vector2( 88, 32 )
 
-[node name="Conveyor3" parent="Machines_Conveyors" instance=ExtResource( 3 )]
+[node name="Machine_Conveyor3" parent="Machines_Conveyors" instance=ExtResource( 3 )]
 position = Vector2( 96, 32 )
 
-[node name="Conveyor4" parent="Machines_Conveyors" instance=ExtResource( 3 )]
+[node name="Machine_Conveyor4" parent="Machines_Conveyors" instance=ExtResource( 3 )]
 position = Vector2( 104, 32 )
 
-[node name="Conveyor5" parent="Machines_Conveyors" instance=ExtResource( 3 )]
+[node name="Machine_Conveyor5" parent="Machines_Conveyors" instance=ExtResource( 3 )]
 position = Vector2( 112, 32 )
 
-[node name="Conveyor6" parent="Machines_Conveyors" instance=ExtResource( 3 )]
+[node name="Machine_Conveyor6" parent="Machines_Conveyors" instance=ExtResource( 3 )]
 position = Vector2( 120, 32 )
 
-[node name="Conveyor7" parent="Machines_Conveyors" instance=ExtResource( 3 )]
-position = Vector2( 128, 32 )
-
-[node name="Conveyor8" parent="Machines_Conveyors" instance=ExtResource( 3 )]
-position = Vector2( 144, 32 )
+[node name="Machine_Conveyor7" parent="Machines_Conveyors" instance=ExtResource( 3 )]
+position = Vector2( 136, 32 )
 rotation = 1.5708
 
-[node name="Conveyor9" parent="Machines_Conveyors" instance=ExtResource( 3 )]
-position = Vector2( 144, 40 )
+[node name="Machine_Conveyor8" parent="Machines_Conveyors" instance=ExtResource( 3 )]
+position = Vector2( 136, 40 )
 rotation = 1.5708
 
-[node name="Conveyor10" parent="Machines_Conveyors" instance=ExtResource( 3 )]
-position = Vector2( 144, 48 )
-rotation = 1.5708
-
-[node name="Conveyor11" parent="Machines_Conveyors" instance=ExtResource( 3 )]
-position = Vector2( 144, 56 )
-rotation = 1.5708
-
-[node name="Conveyor12" parent="Machines_Conveyors" instance=ExtResource( 3 )]
-position = Vector2( 144, 64 )
-rotation = 1.5708
-
-[node name="Conveyor13" parent="Machines_Conveyors" instance=ExtResource( 3 )]
-position = Vector2( 144, 72 )
+[node name="Machine_Conveyor9" parent="Machines_Conveyors" instance=ExtResource( 3 )]
+position = Vector2( 136, 48 )
 rotation = 1.5708
 
 [node name="Bit_Buildables" type="Node2D" parent="."]
 
 [node name="Bit_Minables" type="Node2D" parent="."]
 
-[node name="Bit_Minable" parent="." instance=ExtResource( 5 )]
+[node name="Bit_Minable" parent="Bit_Minables" instance=ExtResource( 5 )]
 position = Vector2( 80, 32 )
+
+[node name="Bit_Minable2" parent="Bit_Minables" instance=ExtResource( 5 )]
+position = Vector2( 96, 32 )
+
+[node name="Machines_Miners" type="Node2D" parent="."]
+
+[node name="Machine_Miner" parent="Machines_Miners" instance=ExtResource( 2 )]
+position = Vector2( 64, 32 )
 
 [node name="DebugBlock" parent="." instance=ExtResource( 6 )]
 
@@ -94,21 +77,3 @@ zoom = Vector2( 0.25, 0.25 )
 [node name="Tween" type="Tween" parent="BLIP/Camera2D"]
 
 [node name="MainUI" type="CanvasLayer" parent="."]
-
-[node name="Machine_Stacker" parent="." instance=ExtResource( 9 )]
-position = Vector2( 40, 96 )
-
-[node name="Machine_Stacker2" parent="." instance=ExtResource( 10 )]
-position = Vector2( 40, 120 )
-
-[node name="Machine_Miner" parent="." instance=ExtResource( 2 )]
-position = Vector2( 40, 144 )
-
-[node name="Machine_Stacker3" parent="." instance=ExtResource( 11 )]
-position = Vector2( 88, 96 )
-
-[node name="Machine_Stacker" parent="Machine_Stacker3" instance=ExtResource( 12 )]
-position = Vector2( 0, 24 )
-
-[node name="Machine_Stacker2" parent="Machine_Stacker3" instance=ExtResource( 8 )]
-position = Vector2( 0, 48 )

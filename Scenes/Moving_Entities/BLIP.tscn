@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=2]
 
-[ext_resource path="res://Assets/Art/Characters/BLIP_sprite_sheet.png" type="Texture" id=2]
-[ext_resource path="res://Scenes/BLIP.gd" type="Script" id=3]
+[ext_resource path="res://Assets/Art/Characters/BLIP_sprite_sheet.png" type="Texture" id=1]
+[ext_resource path="res://Scenes/Moving_Entities/BLIP.gd" type="Script" id=2]
 
 [sub_resource type="Animation" id=1]
 resource_name = "Idle"
@@ -41,16 +41,16 @@ tracks/0/keys = {
 extents = Vector2( 1.88237, 1.88108 )
 
 [sub_resource type="CircleShape2D" id=4]
-radius = 91.9687
+radius = 23.9266
 
 [node name="KinematicBody2D" type="KinematicBody2D"]
 position = Vector2( 44.075, 27.7234 )
 collision_layer = 2
 collision_mask = 12
-script = ExtResource( 3 )
+script = ExtResource( 2 )
 
 [node name="Body" type="Sprite" parent="."]
-texture = ExtResource( 2 )
+texture = ExtResource( 1 )
 centered = false
 hframes = 4
 vframes = 2
@@ -67,5 +67,11 @@ shape = SubResource( 3 )
 [node name="Reach" type="Area2D" parent="."]
 
 [node name="Reach_collision" type="CollisionShape2D" parent="Reach"]
+position = Vector2( 12, 12 )
+shape = SubResource( 4 )
+
+[node name="Dialogue" type="Area2D" parent="."]
+
+[node name="Dialogue_collision" type="CollisionShape2D" parent="Dialogue"]
 position = Vector2( 12, 12 )
 shape = SubResource( 4 )

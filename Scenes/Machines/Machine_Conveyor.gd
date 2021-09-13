@@ -2,8 +2,8 @@ extends Area2D
 
 
 export var conveyor_speed = 0.3
+export var conveyor_velocity = Vector2.ZERO
 var conveyor_direction = Vector2.ZERO
-var conveyor_velocity = Vector2.ZERO
 onready var animator = $AnimationPlayer
 onready var current_rotation = self.rotation_degrees
 
@@ -23,21 +23,28 @@ func _ready():
 		print("BELT ROTATION INVALID")
 
 	conveyor_velocity = conveyor_speed * conveyor_direction.normalized()
+	
+	# Initial check to see if there is anything on the belt
+	check_for_bodies()
 
 func _physics_process(_delta):
-	for body in self.get_overlapping_bodies():
-		body.belt_dict[str(self.get_name())] = conveyor_velocity
+	check_for_bodies()
 
 
 func _on_Conveyor_body_entered(body: KinematicBody2D):
 #	# Add the belt to the end of the list
 	body.belt_list.push_back(str(self.get_name()))
 	# Initialise it in the dict
-	body.belt_dict[str(self.get_name())] = conveyor_velocity
+	# body.belt_dict[str(self.get_name())] = conveyor_velocity
 
 
 func _on_Conveyor_body_exited(body: Node) -> void:
 	body.belt_list.pop_front()
 	# TODO: HANDLE CLEARING OF THE BELT DICT
-	#body.belt_dict.erase(str(self.get_name()))
+	# body.belt_dict.erase(str(self.get_name()))
 	
+
+func check_for_bodies():
+#	for body in self.get_overlapping_bodies():
+#		body.belt_dict[str(self.get_name())] = conveyor_velocity
+	pass
