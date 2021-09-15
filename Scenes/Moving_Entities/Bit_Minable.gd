@@ -107,11 +107,11 @@ func _physics_process(delta):
 	# Correct position based on travel direction
 	if abs(movement_direction.x) > 0.9:
 		# Dominant horizontal movement - adjust Y to grid snap
-		var new_pos = snap_axis(self.global_position.y)
+		var new_pos = helper.snap_axis(self.global_position.y, snap_size)
 		self.global_position.y = new_pos
 	elif abs(movement_direction.y) > 0.9:
 		# Dominant vertical movement - adjust X to grid snap
-		var new_pos = snap_axis(self.global_position.x)
+		var new_pos = helper.snap_axis(self.global_position.x, snap_size)
 		self.global_position.x = new_pos
 
 
@@ -124,9 +124,3 @@ func check_external_velocity():
 		belt_check_direction = belt_dict[current_active_belt]
 	belt_check_direction = belt_check_direction.normalized()
 	return belt_check_direction
-
-
-func snap_axis(original_position):
-	var grid_num_to_snap = round(original_position / snap_size)
-	var new_pos = snap_size * grid_num_to_snap
-	return new_pos

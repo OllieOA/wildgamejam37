@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Scenes/Moving_Entities/BLIP.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/Machines/Machine_Miner.tscn" type="PackedScene" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://DebugBlock.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Scenes/Moving_Entities/Arby.tscn" type="PackedScene" id=7]
 [ext_resource path="res://Scenes/MainCamera.gd" type="Script" id=8]
+[ext_resource path="res://UI/GridCursor.tscn" type="PackedScene" id=9]
 
 [node name="Main" type="Node2D"]
 script = ExtResource( 4 )
@@ -52,9 +53,9 @@ position = Vector2( 80, 32 )
 [node name="Bit_Minable2" parent="Units" instance=ExtResource( 5 )]
 position = Vector2( 96, 32 )
 
-[node name="Machines_Miners" type="Node2D" parent="."]
+[node name="Machines" type="Node2D" parent="."]
 
-[node name="Machine_Miner" parent="Machines_Miners" instance=ExtResource( 2 )]
+[node name="Machine_Miner" parent="Machines" instance=ExtResource( 2 )]
 position = Vector2( 64, 32 )
 
 [node name="DebugBlock" parent="." instance=ExtResource( 6 )]
@@ -78,4 +79,4 @@ script = ExtResource( 8 )
 
 [node name="MainUI" type="CanvasLayer" parent="."]
 
-[node name="Sprite" type="Sprite" parent="."]
+[node name="GridCursor" parent="." instance=ExtResource( 9 )]
