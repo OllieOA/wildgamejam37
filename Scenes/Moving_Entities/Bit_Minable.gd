@@ -8,7 +8,7 @@ export (PackedScene) var Particle_Explosion
 var bit_string = "1"
 var belt_list: Array = [] # For determining the order in which belts are seen
 var belt_dict: Dictionary = {} # For determining the velocity of a keyed belt
-export var curr_position = Vector2.ZERO
+var curr_position = Vector2.ZERO
 var conveyor_speed = 0.3
 
 # Internal vars

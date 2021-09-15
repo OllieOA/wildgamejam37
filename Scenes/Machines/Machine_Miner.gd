@@ -11,8 +11,19 @@ var tick_time = 2
 onready var mine_timer = $Mine_Timer
 onready var output1_location = $Output1
 
+# Custom rotation handling
+var output_rotation_offset
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	
+	output_rotation_offset = {
+		0: [0, 0],
+		90: [-8, 0],
+		180: [-8, -8],
+		270: [0, -8]
+	}
+	
 	enabled = false
 	animator.play("Idle")
 	
@@ -31,26 +42,6 @@ func _ready():
 	mine_timer.set_wait_time(tick_time)
 	mine_timer.connect("timeout", self, "_on_mine_timeout")
 	mine_timer.start()
-
-#	# TEMP CODE
-#	var timer = Timer.new()
-#	timer.set_wait_time(4)
-#	self.add_child(timer)
-#	timer.start()
-#
-#	yield(timer, "timeout")
-#	$AnimationPlayer.play("Running")
-#	$AudioStreamPlayer2D.play()
-#
-#	timer.queue_free()
-#
-#	var timer2 = Timer.new()
-#	timer2.set_wait_time(20)
-#	self.add_child(timer2)
-#	timer2.start()
-#
-#	yield(timer2, "timeout")
-#	self.queue_free()
 
 func _process(delta):
 	if enabled:
@@ -84,7 +75,8 @@ func _process(delta):
 func _on_mine_timeout():
 	var minable_unit = Minable_Unit.instance()
 	minable_unit.bit_string = bit_string_to_mine
-	minable_unit.global_position = output1_location.global_position
+	var rotation_offset_vec = Vector2(output_rotation_offset[int(rotation_degrees)][0], output_rotation_offset[int(rotation_degrees)][1])
+	minable_unit.global_position = output1_location.global_position + rotation_offset_vec
 	# TODO: Add rotation logic to spawning (i.e. add offsets to the output location)
 	# Instance in main tree
 	get_tree().get_current_scene().get_node("Units").add_child(minable_unit)

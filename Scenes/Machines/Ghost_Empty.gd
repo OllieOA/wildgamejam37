@@ -1,11 +1,12 @@
 extends Node2D
 
+onready var sprite = $Sprite
+onready var animation_player = $AnimationPlayer
+var build_offset
 var buildable
 
-
-# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	sprite.hide()
+	sprite.modulate.a8 = int(255 * 0.6)
 	buildable = false
-	$Sprite.hide()
-	$Build_Check_Area.hide()
-
+	build_offset = Vector2(-8, -8)

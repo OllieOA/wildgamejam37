@@ -10,12 +10,12 @@ var rotation_offset
 func _ready() -> void:
 	sprite.modulate.a8 = int(255 * 0.6)
 	buildable = true
-	build_offset = Vector2(-8, -8)
+	build_offset = Vector2.ZERO
 	rotation_offset = {
 		0: [0, 0],
-		90: [16, 0],
-		180: [16, 16],
-		270: [0, 16]
+		90: [8, 0],
+		180: [8, 8],
+		270: [0, 8]
 	}
 
 

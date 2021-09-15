@@ -1,7 +1,10 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Assets/Art/UI/ui_build_cursor.png" type="Texture" id=1]
 [ext_resource path="res://UI/GridCursor.gd" type="Script" id=2]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 4, 4 )
 
 [node name="GridCursor" type="Sprite"]
 position = Vector2( 104, 104 )
@@ -9,4 +12,10 @@ texture = ExtResource( 1 )
 centered = false
 script = ExtResource( 2 )
 
-[node name="Ghost" type="Node2D" parent="."]
+[node name="Ghost" type="Position2D" parent="."]
+
+[node name="Area_Checker" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area_Checker"]
+position = Vector2( 4, 4 )
+shape = SubResource( 1 )
