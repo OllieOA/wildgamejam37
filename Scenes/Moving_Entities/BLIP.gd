@@ -5,17 +5,22 @@ var speed = 100.0
 var external_velocity = Vector2.ZERO
 # TODO - get this conveyor speed from the conveyor scene object
 var conveyor_speed = 0.3
-export var belt_list = [] # For determining the order in which belts are seen
-export var belt_dict = {} # For determining the velocity of a keyed belt
+var belt_list: Array = [] # For determining the order in which belts are seen
+var belt_dict: Dictionary = {} # For determining the velocity of a keyed belt
 export var display_velocity = Vector2.ZERO
 export var curr_position = Vector2.ZERO
 
 # Get nodes
 onready var sprite_body = $Body
 onready var animator = $AnimationPlayer
+onready var activity_checker = $ActivityChecker
 
 func _ready():
 	animator.play("Idle")
+	
+	# Initialise the belt vars
+	belt_list = []
+	belt_dict = {}
 
 
 func _physics_process(_delta):
@@ -23,6 +28,12 @@ func _physics_process(_delta):
 		Here, there is an animation component, which is handled by flipping the
 		sprite sheet depending on the direction	
 	"""
+	# Check if any belts are in range to add to the dict
+	for area in activity_checker.get_overlapping_areas():
+		if "Machine_Conveyor" in area.get_name():
+			belt_dict[area.get_name()] = area.conveyor_velocity
+	
+	
 	var velocity = Vector2.ZERO
 	
 	if Input.is_action_pressed("up"):
@@ -37,12 +48,17 @@ func _physics_process(_delta):
 	if Input.is_action_pressed("right"):
 		velocity = _move_right(velocity)
 		
-
 	velocity = velocity.normalized()
+	
 	# Check if there is any velocity force on the player
-	var external_direction = check_external_velocity(belt_list, belt_dict)
-	external_velocity = external_direction * conveyor_speed
-	var move_and_slide_velocity = (velocity + external_velocity) * speed
+	var move_and_slide_velocity = Vector2.ZERO
+	
+	if not belt_dict.empty():
+		var external_direction = check_external_velocity()
+		external_velocity = external_direction * conveyor_speed
+		move_and_slide_velocity = (velocity + external_velocity) * speed
+	else:
+		move_and_slide_velocity = velocity * speed
 	move_and_slide(move_and_slide_velocity)
 	display_velocity = move_and_slide_velocity
 	
@@ -58,13 +74,23 @@ func _physics_process(_delta):
 			sprite_body.flip_h = false
 
 
-func check_external_velocity(external_belt_list, external_belt_dict) -> Vector2:
+#func check_external_velocity(external_belt_list, external_belt_dict) -> Vector2:
+#	var belt_check_direction = Vector2.ZERO
+#	if external_belt_list.empty():
+#		return belt_check_direction
+#	else:
+#		var current_active_belt = external_belt_list[0]
+#		belt_check_direction = external_belt_dict[current_active_belt]
+#	belt_check_direction = belt_check_direction.normalized()
+#	return belt_check_direction
+
+func check_external_velocity():
 	var belt_check_direction = Vector2.ZERO
-	if external_belt_list.empty():
+	if belt_list.empty():
 		return belt_check_direction
 	else:
-		var current_active_belt = external_belt_list[0]
-		belt_check_direction = external_belt_dict[current_active_belt]
+		var current_active_belt = belt_list[0]
+		belt_check_direction = belt_dict[current_active_belt]
 	belt_check_direction = belt_check_direction.normalized()
 	return belt_check_direction
 

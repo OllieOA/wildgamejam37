@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Scenes/Moving_Entities/BLIP.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/Machines/Machine_Miner.tscn" type="PackedScene" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://Scenes/Moving_Entities/Bit_Minable.tscn" type="PackedScene" id=5]
 [ext_resource path="res://DebugBlock.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Scenes/Moving_Entities/Arby.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Scenes/MainCamera.gd" type="Script" id=8]
 
 [node name="Main" type="Node2D"]
 script = ExtResource( 4 )
@@ -43,14 +44,12 @@ rotation = 1.5708
 position = Vector2( 136, 48 )
 rotation = 1.5708
 
-[node name="Bit_Buildables" type="Node2D" parent="."]
+[node name="Units" type="Node2D" parent="."]
 
-[node name="Bit_Minables" type="Node2D" parent="."]
-
-[node name="Bit_Minable" parent="Bit_Minables" instance=ExtResource( 5 )]
+[node name="Bit_Minable" parent="Units" instance=ExtResource( 5 )]
 position = Vector2( 80, 32 )
 
-[node name="Bit_Minable2" parent="Bit_Minables" instance=ExtResource( 5 )]
+[node name="Bit_Minable2" parent="Units" instance=ExtResource( 5 )]
 position = Vector2( 96, 32 )
 
 [node name="Machines_Miners" type="Node2D" parent="."]
@@ -66,14 +65,17 @@ position = Vector2( 64, 32 )
 position = Vector2( 200, 80 )
 
 [node name="BLIP" parent="." instance=ExtResource( 1 )]
-position = Vector2( 160, 90 )
+position = Vector2( 144, 80 )
 
-[node name="Camera2D" type="Camera2D" parent="BLIP"]
-position = Vector2( -160, -90 )
-anchor_mode = 0
+[node name="MainCamera" type="Camera2D" parent="BLIP"]
+position = Vector2( 12.0714, 18.1046 )
 current = true
 zoom = Vector2( 0.25, 0.25 )
+smoothing_enabled = true
+script = ExtResource( 8 )
 
-[node name="Tween" type="Tween" parent="BLIP/Camera2D"]
+[node name="Tween" type="Tween" parent="BLIP/MainCamera"]
 
 [node name="MainUI" type="CanvasLayer" parent="."]
+
+[node name="Sprite" type="Sprite" parent="."]

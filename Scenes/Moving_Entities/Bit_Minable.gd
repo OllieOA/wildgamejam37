@@ -29,6 +29,10 @@ var bit_mineable_dict = {
 	"10": 3
 }
 
+# Internal logic to handle process vs physics
+var tenth_loop = false
+var process_loop_counter = 0
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -39,14 +43,17 @@ func _ready() -> void:
 	# Initialise the belt vars
 	belt_list = []
 	belt_dict = {}
+	
+	mark_for_destruction = false
 
 func _process(delta):
-	
-	# Check for destruction
-	if not mark_for_destruction:
-		if activity_checker.get_overlapping_areas().empty():
-			mark_for_destruction = true
-			
+
+	# Catch premature destruction with the physics system
+	if not process_loop_counter > 10:
+		process_loop_counter += 1
+	else: 
+		tenth_loop = true 
+
 	if mark_for_destruction and particle_latch:
 		# Destroy and explode
 		var timer = Timer.new()
@@ -56,7 +63,7 @@ func _process(delta):
 		var particle_effect = Particle_Explosion.instance()
 		add_child(particle_effect)
 		particle_effect.global_position = bit_centre.global_position
-		particle_effect.emitting = true
+		particle_effect.initialize(self.sprite)
 		sprite.visible = false
 		collider.disabled = true
 		
@@ -70,15 +77,18 @@ func _process(delta):
 	for belt in belt_dict.keys():
 		if not (belt in belt_list):
 			belt_dict.erase(belt)
-		
+	
+	# Check for destruction
+	if not mark_for_destruction and tenth_loop:
+		if activity_checker.get_overlapping_areas().empty():
+			mark_for_destruction = true
+
 func _physics_process(delta):
+	
 	# Check if any belts are in range to add to the dict
 	for area in activity_checker.get_overlapping_areas():
 		if "Machine_Conveyor" in area.get_name():
 			belt_dict[area.get_name()] = area.conveyor_velocity
-			print(belt_dict)
-			print(belt_list)
-	
 	
 	# Update and expose centre pos
 	curr_position = bit_centre.global_position
