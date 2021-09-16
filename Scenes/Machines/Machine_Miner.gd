@@ -75,8 +75,7 @@ func _process(delta):
 func _on_mine_timeout():
 	var minable_unit = Minable_Unit.instance()
 	minable_unit.bit_string = bit_string_to_mine
-	var rotation_offset_vec = Vector2(output_rotation_offset[int(rotation_degrees)][0], output_rotation_offset[int(rotation_degrees)][1])
-	minable_unit.global_position = output1_location.global_position + rotation_offset_vec
+	minable_unit.global_position = output1_location.global_position + Vector2(-4, -4)
 	# TODO: Add rotation logic to spawning (i.e. add offsets to the output location)
 	# Instance in main tree
 	get_tree().get_current_scene().get_node("Units").add_child(minable_unit)

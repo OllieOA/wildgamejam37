@@ -48,10 +48,15 @@ rotation = 1.5708
 
 [node name="Units" type="Node2D" parent="."]
 
+[node name="ParticleRenderLayer" type="Node2D" parent="Units"]
+
 [node name="Bit_Minable" parent="Units" instance=ExtResource( 5 )]
 position = Vector2( 80, 32 )
 
 [node name="Bit_Minable2" parent="Units" instance=ExtResource( 5 )]
+position = Vector2( 88, 32 )
+
+[node name="Bit_Minable3" parent="Units" instance=ExtResource( 5 )]
 position = Vector2( 96, 32 )
 
 [node name="Bit_Cache" parent="Units" instance=ExtResource( 10 )]

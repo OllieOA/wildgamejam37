@@ -1,7 +1,7 @@
 extends KinematicBody2D
 
 # Debug vars
-export var display_velocity = Vector2.ZERO
+var display_velocity = Vector2.ZERO
 
 # External vars
 export (PackedScene) var Particle_Explosion
@@ -16,6 +16,8 @@ onready var bit_centre = $Bit_Centre
 onready var activity_checker = $ActivityChecker
 onready var sprite = $Sprite
 onready var collider = $CollisionShape2D
+onready var blockage_checker = $BlockageChecker
+var blocked
 var particle_latch = true
 var mark_for_destruction = false
 var mark_for_absorption = false
@@ -47,7 +49,6 @@ func _ready() -> void:
 	mark_for_destruction = false
 
 func _process(delta):
-
 	# Catch premature destruction with the physics system
 	if not process_loop_counter > 10:
 		process_loop_counter += 1
@@ -61,15 +62,15 @@ func _process(delta):
 		
 		# Add particle effect and remove sprite
 		var particle_effect = Particle_Explosion.instance()
-		add_child(particle_effect)
 		particle_effect.global_position = bit_centre.global_position
+		get_tree().get_current_scene().get_node("Units").get_node("ParticleRenderLayer").add_child(particle_effect)
 		particle_effect.initialize(self.sprite)
 		sprite.visible = false
 		collider.disabled = true
 		
 		# Time to scene destruction
 		timer.connect("timeout", self, "queue_free")
-		timer.set_wait_time(1)
+		timer.set_wait_time(particle_effect.lifetime)
 		timer.start()
 		particle_latch = false
 		
@@ -80,39 +81,50 @@ func _process(delta):
 	
 	# Check for destruction
 	if not mark_for_destruction and tenth_loop:
-		if activity_checker.get_overlapping_areas().empty():
+		if len(activity_checker.get_overlapping_areas()) < 2:
 			mark_for_destruction = true
 
 func _physics_process(delta):
 	
-	# Check if any belts are in range to add to the dict
-	for area in activity_checker.get_overlapping_areas():
-		if "Machine_Conveyor" in area.get_name():
-			belt_dict[area.get_name()] = area.conveyor_velocity
+	# Check if blocked, and if blocked, disable velocity change
+	blocked = false
+	if len(blockage_checker.get_overlapping_bodies()) > 1:
+		blocked = true
 	
-	# Update and expose centre pos
-	curr_position = bit_centre.global_position
-	
-	# Move item based on belt physics
-	var velocity = Vector2.ZERO
-	var external_direction = check_external_velocity()
-	external_velocity = external_direction * conveyor_speed
-	
-	# Update velocity and determine cardinal direction
-	var move_and_slide_velocity = (external_velocity + velocity) * base_speed
-	move_and_slide(move_and_slide_velocity)
-	display_velocity = move_and_slide_velocity
-	var movement_direction = move_and_slide_velocity.normalized()
-	
-	# Correct position based on travel direction
-	if abs(movement_direction.x) > 0.9:
-		# Dominant horizontal movement - adjust Y to grid snap
-		var new_pos = helper.snap_axis(self.global_position.y, snap_size)
-		self.global_position.y = new_pos
-	elif abs(movement_direction.y) > 0.9:
-		# Dominant vertical movement - adjust X to grid snap
-		var new_pos = helper.snap_axis(self.global_position.x, snap_size)
-		self.global_position.x = new_pos
+	if not blocked:
+		# Check if any belts are in range to add to the dict
+		for area in activity_checker.get_overlapping_areas():
+			if "Machine_Conveyor" in area.get_name():
+				belt_dict[area.get_name()] = area.conveyor_velocity
+		
+		# Update and expose centre pos
+		curr_position = bit_centre.global_position
+		
+		# Move item based on belt physics
+		var velocity = Vector2.ZERO
+		var external_direction = check_external_velocity()
+		external_velocity = external_direction * conveyor_speed
+		
+		# Update velocity and determine cardinal direction
+		var move_and_slide_velocity = (external_velocity + velocity) * base_speed
+		move_and_slide(move_and_slide_velocity)
+		display_velocity = move_and_slide_velocity
+		var movement_direction = move_and_slide_velocity.normalized()
+		
+		# Move the directional blockage checker 
+		var rotation_based_on_travel = int(rad2deg(movement_direction.angle()))
+		if rotation_based_on_travel in [0, 90, 180, 270]:
+			blockage_checker.rotation_degrees = rotation_based_on_travel
+		
+		# Correct position based on travel direction
+		if abs(movement_direction.x) > 0.9:
+			# Dominant horizontal movement - adjust Y to grid snap
+			var new_pos = helper.snap_axis(self.global_position.y, snap_size)
+			self.global_position.y = new_pos
+		elif abs(movement_direction.y) > 0.9:
+			# Dominant vertical movement - adjust X to grid snap
+			var new_pos = helper.snap_axis(self.global_position.x, snap_size)
+			self.global_position.x = new_pos
 
 
 func check_external_velocity():

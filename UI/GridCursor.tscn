@@ -14,8 +14,10 @@ script = ExtResource( 2 )
 
 [node name="Ghost" type="Position2D" parent="."]
 
-[node name="Area_Checker" type="Area2D" parent="."]
+[node name="AreaChecker" type="Area2D" parent="."]
+collision_layer = 130
+collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area_Checker"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AreaChecker"]
 position = Vector2( 4, 4 )
 shape = SubResource( 1 )
