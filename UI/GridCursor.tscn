@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Assets/Art/UI/ui_build_cursor.png" type="Texture" id=1]
 [ext_resource path="res://UI/GridCursor.gd" type="Script" id=2]
+[ext_resource path="res://Assets/Fonts/pixel_cursor_tooltip.tres" type="DynamicFont" id=3]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 4, 4 )
@@ -16,8 +17,25 @@ script = ExtResource( 2 )
 
 [node name="AreaChecker" type="Area2D" parent="."]
 collision_layer = 130
-collision_mask = 0
+collision_mask = 48
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AreaChecker"]
 position = Vector2( 4, 4 )
 shape = SubResource( 1 )
+
+[node name="Label" type="Label" parent="."]
+margin_left = 12.0
+margin_right = 153.0
+margin_bottom = 46.0
+rect_min_size = Vector2( 100, 40 )
+rect_scale = Vector2( 0.2, 0.2 )
+custom_fonts/font = ExtResource( 3 )
+custom_colors/font_color = Color( 0.862745, 0.862745, 0.862745, 1 )
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "[STACKER]"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Tween" type="Tween" parent="Label"]

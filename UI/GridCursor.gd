@@ -1,6 +1,7 @@
 extends Sprite
 
 onready var bit_tool_tip = preload("res://UI/BitTooltip.tscn")
+onready var miner_tool_tip = preload("res://UI/MinerTooltip.tscn")
 
 var base_texture = "res://Assets/Art/UI/ui_build_cursor.png"
 var destroy_texture = "res://Assets/Art/UI/ui_destroy_cursor.png"
@@ -26,24 +27,64 @@ var build_scene
 var build_scene_to_load
 var ghost_rotation
 var rotation_offset
+var build_position
+
+# Tooltip vars
+var tooltip_showing
+var current_tooltip_body
+var destroying_tooltip
+onready var build_select_tooltip_text = $Label
+onready var build_select_tooltip_tween = $Label/Tween
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	modulate.a8 = int(255 * alpha)
 	building = false
 	destroying = false
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
+	tooltip_showing = false
+	destroying_tooltip = false
+	build_position = Vector2.ZERO
 	
-	# First, update cursor
+	build_select_tooltip_text.modulate.a8 = 0
+
+func _process(_delta) -> void:
+	
+	#  Update cursor position and snap to axis
 	var current_mouse_position = get_global_mouse_position()
 	var snapped_x = helper.snap_axis(current_mouse_position.x + snap_size / 2, snap_size) - snap_size
 	var snapped_y = helper.snap_axis(current_mouse_position.y + snap_size / 2, snap_size) - snap_size
 	
-	var build_position = Vector2(snapped_x, snapped_y)
+	build_position = Vector2(snapped_x, snapped_y)
 	global_position.x = snapped_x # Force this to be in the centre of the mouse
 	global_position.y = snapped_y
+	
+	# Test for tooltip triggering
+	if not tooltip_showing:
+		for body in area_checker.get_overlapping_bodies():
+			if "Bit" in body.get_name():
+				current_tooltip_body = body.get_name()
+				# Instance the tooltip
+				instance_tooltip(bit_tool_tip, body)
+				
+			elif "Miner" in body.get_name():
+				current_tooltip_body = body.get_name()
+				# Instance the tooltip
+				instance_tooltip(miner_tool_tip, body)
+				
+	if tooltip_showing:
+		if not current_tooltip_body in area_checker.get_overlapping_bodies() and not destroying_tooltip:
+			destroying_tooltip = true
+			var timer_tooltip_destroy = Timer.new()
+			timer_tooltip_destroy.one_shot = true
+			add_child(timer_tooltip_destroy)
+			timer_tooltip_destroy.set_wait_time(1)
+			timer_tooltip_destroy.connect("timeout", self, "_on_tooltip_destory_timeout")
+			timer_tooltip_destroy.start()
+
+	# Test to see if tooltip has died
+#	if tooltip_showing:
+#		if tooltip_instance.
+		
 	
 	# Handle build cancellation (C)
 	if Input.is_action_just_pressed("cancel_build"):
@@ -64,8 +105,10 @@ func _process(delta: float) -> void:
 	# Handle inputs to set ghost
 	if Input.is_action_just_pressed("selector_1"):
 		# Conveyor
+		# if unlocked.conveyor:
+			
 		remove_current_ghost()  # Clear current selection
-		print("Conveyor selected")
+		show_build_select_tooltip("CONVEYOR")
 		ghost_scene_to_load = "res://Scenes/Machines/Ghost_Machine_Conveyor.tscn"
 		build_scene_to_load = "res://Scenes/Machines/Machine_Conveyor.tscn"
 		building = true
@@ -73,7 +116,7 @@ func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("selector_2"):
 		# Miner
 		remove_current_ghost()  # Clear current selection
-		print("Miner selected")
+		show_build_select_tooltip("MINER")
 		ghost_scene_to_load = "res://Scenes/Machines/Ghost_Machine_Miner.tscn"
 		build_scene_to_load = "res://Scenes/Machines/Machine_Miner.tscn"
 		building = true
@@ -164,6 +207,20 @@ func _process(delta: float) -> void:
 		update_collision_mask(false)
 
 
+func instance_tooltip(tooltip_to_instance, body):
+	# Instance the tooltip
+	var tooltip_instance = tooltip_to_instance.instance()
+	tooltip_instance.rect_scale = Vector2(0.25, 0.25)
+	tooltip_instance.rect_position = build_position + Vector2(16, 0)
+	tooltip_instance.bit_value = body.bit_string
+	
+	add_child(tooltip_instance)
+	yield(get_tree().create_timer(0.1), "timeout")
+	if has_node("Tooltip"):
+		get_node("Tooltip").show()
+	tooltip_showing = true
+
+
 func remove_current_ghost():
 	if ghost_handler.get_child_count() > 0:
 		for child in ghost_handler.get_children():
@@ -181,3 +238,21 @@ func load_ghost():
 func update_collision_mask(setting):
 	area_checker.set_collision_mask_bit(2, setting)
 	area_checker.set_collision_mask_bit(3, setting)
+	area_checker.set_collision_mask_bit(4, not setting)
+	area_checker.set_collision_mask_bit(5, not setting)
+
+
+func _on_tooltip_destory_timeout():
+	get_node("Tooltip").queue_free()
+	tooltip_showing = false
+	destroying_tooltip = false
+
+
+func show_build_select_tooltip(selection):
+	build_select_tooltip_text.set_text(selection)
+	build_select_tooltip_text.modulate.a8 = 255
+	#yield(get_tree().create_timer(0.3), "timeout")
+	if build_select_tooltip_tween.is_active():
+		build_select_tooltip_tween.stop(build_select_tooltip_text)
+	build_select_tooltip_tween.interpolate_property(build_select_tooltip_text, "modulate", Color(1, 1, 1, 1), Color(1, 1, 1, 0), 1.2, Tween.TRANS_QUINT, Tween.EASE_IN)
+	build_select_tooltip_tween.start()

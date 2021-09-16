@@ -1,6 +1,5 @@
 extends Area2D
 
-
 export var conveyor_speed = 0.3
 export var conveyor_velocity = Vector2.ZERO
 var conveyor_direction = Vector2.ZERO
@@ -9,6 +8,7 @@ onready var current_rotation = self.rotation_degrees
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	animator.add_to_group("belt_animations", true)
 	animator.play("Convey")
 	# Decide the direction of the conveyer belt
 	if current_rotation >= 0 and current_rotation < 1:

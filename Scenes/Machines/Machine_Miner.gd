@@ -1,6 +1,6 @@
 extends StaticBody2D
 
-export var bit_string_to_mine = "10"
+var bit_string
 export (PackedScene) var Minable_Unit
 
 onready var animator = $AnimationPlayer
@@ -16,6 +16,8 @@ var output_rotation_offset
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	
+	bit_string = "10"
 	
 	output_rotation_offset = {
 		0: [0, 0],
@@ -74,9 +76,9 @@ func _process(delta):
 
 func _on_mine_timeout():
 	var minable_unit = Minable_Unit.instance()
-	minable_unit.bit_string = bit_string_to_mine
+	minable_unit.bit_string = bit_string
 	minable_unit.global_position = output1_location.global_position + Vector2(-4, -4)
-	# TODO: Add rotation logic to spawning (i.e. add offsets to the output location)
+
 	# Instance in main tree
 	get_tree().get_current_scene().get_node("Units").add_child(minable_unit)
 

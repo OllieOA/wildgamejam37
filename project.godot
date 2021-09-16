@@ -24,8 +24,10 @@ gdscript/completion/autocomplete_setters_and_getters=true
 
 [display]
 
-window/size/width=1280
-window/size/height=720
+window/size/width=1920
+window/size/height=1080
+mouse_cursor/custom_image="res://Assets/Art/UI/ui_menu_cursor.png"
+window/stretch/aspect="keep"
 
 [importer_defaults]
 

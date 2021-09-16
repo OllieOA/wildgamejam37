@@ -11,7 +11,9 @@
 [ext_resource path="res://UI/GridCursor.tscn" type="PackedScene" id=9]
 [ext_resource path="res://Scenes/Machines/Bit_Cache.tscn" type="PackedScene" id=10]
 
-[node name="Main" type="Node2D"]
+[node name="Main" type="Node2D" groups=[
+"belt_animations",
+]]
 script = ExtResource( 4 )
 
 [node name="Machines_Conveyors" type="Node2D" parent="."]
@@ -45,6 +47,59 @@ rotation = 1.5708
 [node name="Machine_Conveyor9" parent="Machines_Conveyors" instance=ExtResource( 3 )]
 position = Vector2( 136, 48 )
 rotation = 1.5708
+
+[node name="Machine_Conveyor10" parent="Machines_Conveyors" instance=ExtResource( 3 )]
+position = Vector2( 136, 56 )
+rotation = 1.5708
+
+[node name="Machine_Conveyor11" parent="Machines_Conveyors" instance=ExtResource( 3 )]
+position = Vector2( 136, 72 )
+rotation = 3.14159
+
+[node name="Machine_Conveyor12" parent="Machines_Conveyors" instance=ExtResource( 3 )]
+position = Vector2( 128, 72 )
+rotation = 3.14159
+
+[node name="Machine_Conveyor13" parent="Machines_Conveyors" instance=ExtResource( 3 )]
+position = Vector2( 120, 72 )
+rotation = 3.14159
+
+[node name="Machine_Conveyor14" parent="Machines_Conveyors" instance=ExtResource( 3 )]
+position = Vector2( 112, 72 )
+rotation = 3.14159
+
+[node name="Machine_Conveyor15" parent="Machines_Conveyors" instance=ExtResource( 3 )]
+position = Vector2( 104, 72 )
+rotation = 3.14159
+
+[node name="Machine_Conveyor16" parent="Machines_Conveyors" instance=ExtResource( 3 )]
+position = Vector2( 96, 72 )
+rotation = 3.14159
+
+[node name="Machine_Conveyor17" parent="Machines_Conveyors" instance=ExtResource( 3 )]
+position = Vector2( 80, 72 )
+rotation = 4.71239
+
+[node name="Machine_Conveyor18" parent="Machines_Conveyors" instance=ExtResource( 3 )]
+position = Vector2( 80, 64 )
+rotation = 4.71239
+
+[node name="Machine_Conveyor19" parent="Machines_Conveyors" instance=ExtResource( 3 )]
+position = Vector2( 80, 56 )
+rotation = 4.71239
+
+[node name="Machine_Conveyor20" parent="Machines_Conveyors" instance=ExtResource( 3 )]
+position = Vector2( 80, 40 )
+
+[node name="Machine_Conveyor21" parent="Machines_Conveyors" instance=ExtResource( 3 )]
+position = Vector2( 88, 40 )
+
+[node name="Machine_Conveyor22" parent="Machines_Conveyors" instance=ExtResource( 3 )]
+position = Vector2( 96, 40 )
+
+[node name="Machine_Conveyor23" parent="Machines_Conveyors" instance=ExtResource( 3 )]
+position = Vector2( 104, 48 )
+rotation = 4.71239
 
 [node name="Units" type="Node2D" parent="."]
 

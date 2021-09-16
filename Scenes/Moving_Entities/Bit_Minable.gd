@@ -53,7 +53,7 @@ func _process(delta):
 	if not process_loop_counter > 10:
 		process_loop_counter += 1
 	else: 
-		tenth_loop = true 
+		tenth_loop = true # Latched
 
 	if mark_for_destruction and particle_latch:
 		# Destroy and explode
@@ -81,7 +81,8 @@ func _process(delta):
 	
 	# Check for destruction
 	if not mark_for_destruction and tenth_loop:
-		if len(activity_checker.get_overlapping_areas()) < 2:
+		
+		if belt_dict.empty():
 			mark_for_destruction = true
 
 func _physics_process(delta):
@@ -113,7 +114,7 @@ func _physics_process(delta):
 		
 		# Move the directional blockage checker 
 		var rotation_based_on_travel = int(rad2deg(movement_direction.angle()))
-		if rotation_based_on_travel in [0, 90, 180, 270]:
+		if rotation_based_on_travel in [-90, 0, 90, 180]:
 			blockage_checker.rotation_degrees = rotation_based_on_travel
 		
 		# Correct position based on travel direction

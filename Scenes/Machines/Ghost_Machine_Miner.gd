@@ -22,6 +22,9 @@ func _ready() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	# Decide if item is buildable
+	
+	
+	
 	if global_position.x < 0:
 		buildable = false
 	else:
