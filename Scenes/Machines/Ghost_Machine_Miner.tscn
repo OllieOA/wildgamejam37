@@ -1,9 +1,10 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Scenes/Machines/Ghost_Machine_Miner.gd" type="Script" id=1]
 [ext_resource path="res://Assets/Art/Machines/machine_miner.png" type="Texture" id=2]
+[ext_resource path="res://Assets/Art/UI/ui_arrow.png" type="Texture" id=3]
 
-[sub_resource type="Animation" id=2]
+[sub_resource type="Animation" id=1]
 resource_name = "Idle"
 length = 0.4
 loop = true
@@ -20,7 +21,7 @@ tracks/0/keys = {
 "values": [ 0, 1, 2 ]
 }
 
-[sub_resource type="Animation" id=3]
+[sub_resource type="Animation" id=2]
 length = 0.8
 loop = true
 tracks/0/type = "value"
@@ -36,7 +37,7 @@ tracks/0/keys = {
 "values": [ 8, 9, 10, 11, 12, 13, 14, 15 ]
 }
 
-[sub_resource type="GDScript" id=4]
+[sub_resource type="GDScript" id=3]
 script/source = "extends AnimationPlayer
 
 
@@ -55,8 +56,8 @@ func _ready() -> void:
 #	pass
 "
 
-[sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 7.85829, 7.83479 )
+[sub_resource type="RectangleShape2D" id=4]
+extents = Vector2( 1.46696, 4 )
 
 [node name="Ghost_Machine_Miner" type="Node2D"]
 script = ExtResource( 1 )
@@ -70,13 +71,31 @@ vframes = 2
 frame = 8
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/Idle = SubResource( 2 )
-anims/Running = SubResource( 3 )
-script = SubResource( 4 )
+anims/Idle = SubResource( 1 )
+anims/Running = SubResource( 2 )
+script = SubResource( 3 )
 
 [node name="Build_Check_Area" type="Area2D" parent="."]
+collision_layer = 256
+collision_mask = 524
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Build_Check_Area"]
-visible = false
-position = Vector2( 8, 8 )
-shape = SubResource( 1 )
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Build_Check_Area"]
+build_mode = 1
+polygon = PoolVector2Array( 0.5, 0.5, 23.5, 0.5, 23.5, 7.5, 15.5, 7.5, 15.5, 15.5, 0.5, 15.5, 0.5, 0.5 )
+
+[node name="ArrowSprite" type="Sprite" parent="."]
+position = Vector2( 16, 0 )
+texture = ExtResource( 3 )
+centered = false
+
+[node name="BeltCheckArea" type="Area2D" parent="."]
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BeltCheckArea"]
+position = Vector2( 17, 4 )
+shape = SubResource( 4 )
+
+[connection signal="area_entered" from="Build_Check_Area" to="." method="_on_Build_Check_Area_area_entered"]
+[connection signal="area_exited" from="Build_Check_Area" to="." method="_on_Build_Check_Area_area_exited"]
+[connection signal="body_entered" from="Build_Check_Area" to="." method="_on_Build_Check_Area_body_entered"]
+[connection signal="body_exited" from="Build_Check_Area" to="." method="_on_Build_Check_Area_body_exited"]

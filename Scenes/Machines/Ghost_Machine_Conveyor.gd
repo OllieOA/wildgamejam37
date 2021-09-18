@@ -2,6 +2,7 @@ extends Node2D
 
 onready var sprite = $Sprite
 onready var animation_player = $AnimationPlayer
+onready var build_check_area = $Build_Check_Area
 var build_offset
 var buildable
 
@@ -21,8 +22,12 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
+	buildable = true	
 	# Decide if item is buildable
-	if global_position.x < 0:
-		buildable = false
-	else:
-		buildable = true
+	for body in build_check_area.get_overlapping_bodies():
+		if "Machine" in body.get_name():
+			buildable = false
+	
+	for area in build_check_area.get_overlapping_areas():
+		if "Machine" in area.get_name():
+			buildable = false

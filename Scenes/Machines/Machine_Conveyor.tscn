@@ -21,11 +21,11 @@ tracks/0/keys = {
 }
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 3.88377, 3.9017 )
+extents = Vector2( 3.75427, 3.81272 )
 
 [node name="Machine_Conveyor" type="Area2D"]
 collision_layer = 4
-collision_mask = 50
+collision_mask = 306
 script = ExtResource( 2 )
 
 [node name="Sprite" type="Sprite" parent="."]

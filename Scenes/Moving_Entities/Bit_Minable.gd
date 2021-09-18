@@ -24,7 +24,7 @@ var mark_for_absorption = false
 var external_velocity = Vector2.ZERO
 var base_speed = 100
 var snap_size = 8
-var bit_mineable_dict = {
+var bit_dict = {
 	"0110": 0,
 	"1": 1,
 	"0": 2,
@@ -39,7 +39,7 @@ var process_loop_counter = 0
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	# Get frame for bit object
-	var frame_to_use = bit_mineable_dict[bit_string]
+	var frame_to_use = bit_dict[bit_string]
 	sprite.frame = frame_to_use
 	
 	# Initialise the belt vars

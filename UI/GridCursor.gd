@@ -171,9 +171,9 @@ func _process(_delta) -> void:
 		else:
 			colour_mask = non_buildable_colour
 
-		ghost_entity.sprite.modulate.r8 = colour_mask.x
-		ghost_entity.sprite.modulate.g8 = colour_mask.y
-		ghost_entity.sprite.modulate.b8 = colour_mask.z
+		ghost_entity.modulate.r8 = colour_mask.x
+		ghost_entity.modulate.g8 = colour_mask.y
+		ghost_entity.modulate.b8 = colour_mask.z
 		
 	# Handle clicking
 	if Input.is_action_just_pressed("build") and building:
@@ -243,7 +243,8 @@ func update_collision_mask(setting):
 
 
 func _on_tooltip_destory_timeout():
-	get_node("Tooltip").queue_free()
+	if get_node("Tooltip") != null:
+		get_node("Tooltip").queue_free()
 	tooltip_showing = false
 	destroying_tooltip = false
 

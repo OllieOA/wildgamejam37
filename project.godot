@@ -8,15 +8,34 @@
 
 config_version=4
 
+_global_script_classes=[ {
+"base": "Area2D",
+"class": "Belt",
+"language": "GDScript",
+"path": "res://Scenes/Classes/Belt.gd"
+} ]
+_global_script_class_icons={
+"Belt": ""
+}
+
 [application]
 
-config/name="WildGameJam37"
+config/name="BLIP"
+config/description="BLIP - made for the Godot Wild Gamejam 37"
 run/main_scene="res://Scenes/Main.tscn"
-config/icon="res://icon.png"
+boot_splash/image="res://Assets/Art/UI/GodotLogo.png"
+boot_splash/fullsize=false
+boot_splash/use_filter=false
+config/icon="res://Assets/Art/UI/GameIcon.png"
+
+[audio]
+
+channel_disable_threshold_db=-20.0
 
 [autoload]
 
 helper="*res://Scenes/HelperFunction.gd"
+world_parameters="*res://Scenes/WorldParameters.gd"
 
 [debug]
 
@@ -189,6 +208,8 @@ rotate_anticlockwise={
 2d_physics/layer_6="units_processing"
 2d_physics/layer_7="arby"
 2d_physics/layer_8="cursor"
+2d_physics/layer_9="ghosts"
+2d_physics/layer_10="occupation"
 
 [physics]
 
@@ -201,4 +222,4 @@ environment/default_environment="res://default_env.tres"
 
 [world]
 
-2d/cell_size=16
+2d/cell_size=8

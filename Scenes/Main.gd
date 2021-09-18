@@ -25,4 +25,5 @@ func _on_Timer_timeout():
 	#print("DEBUG: BLIP VELOCITY is " + str(blip.display_velocity))
 	#print("DEBUG: BIT POS is " + str(bit.curr_position))
 	#print("DEBUG: BLIP POS is " + str(blip.curr_position))
-	get_tree().call_group("belt_animations", "seek", 0.0)  # Sync animation
+	#get_tree().call_group("belt_animations", "seek", 0.0)  # Sync animation
+	pass
