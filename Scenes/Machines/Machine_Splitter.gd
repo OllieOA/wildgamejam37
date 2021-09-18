@@ -1,12 +1,9 @@
 extends Belt
 
-var split_direction
-
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	
 	# Add splitter logic
-	split_direction = "L"
 	# Rotate direction by -90, using vectors
 	if abs(conveyor_direction.x) > 0.9:  # Rotating to vertical, accounting for floating point error
 		conveyor_direction = Vector2(0, -1 * conveyor_direction.x)

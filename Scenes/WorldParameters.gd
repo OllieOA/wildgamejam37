@@ -1,7 +1,12 @@
 extends Node
 
 var conveyor_speed = 0.2
+var base_bit_speed = 100
+var snap_size = 8
 var tick_time = 0.4
+
+# Machine timers
+var flipper_time = 3
 
 func _ready():
 	# Establish a tick timer for belts

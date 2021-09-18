@@ -27,3 +27,9 @@ func _on_Timer_timeout():
 	#print("DEBUG: BLIP POS is " + str(blip.curr_position))
 	#get_tree().call_group("belt_animations", "seek", 0.0)  # Sync animation
 	pass
+	
+	
+# TODO DISABLE THIS
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("debug_unlock"):
+		unlocker.miner = true

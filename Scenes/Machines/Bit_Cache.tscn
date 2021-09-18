@@ -55,6 +55,3 @@ position = Vector2( -8, 16 )
 
 [node name="Bit_Minable17" parent="." instance=ExtResource( 2 )]
 position = Vector2( -8, 8 )
-
-[node name="Bit_Minable18" parent="." instance=ExtResource( 2 )]
-position = Vector2( -8, 8 )

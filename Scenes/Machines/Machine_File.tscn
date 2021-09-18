@@ -1,0 +1,134 @@
+[gd_scene load_steps=12 format=2]
+
+[ext_resource path="res://Assets/Art/Machines/machine_file_bits.png" type="Texture" id=1]
+[ext_resource path="res://Scenes/Machines/Machine_File.gd" type="Script" id=2]
+[ext_resource path="res://Assets/Sounds/file_beep.ogg" type="AudioStream" id=3]
+[ext_resource path="res://Assets/Sounds/wrong_bit.ogg" type="AudioStream" id=4]
+[ext_resource path="res://Assets/Sounds/right_bit.ogg" type="AudioStream" id=5]
+[ext_resource path="res://Assets/Sounds/win.ogg" type="AudioStream" id=6]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 16, 16 )
+
+[sub_resource type="Animation" id=3]
+resource_name = "Complete"
+length = 0.8
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ 2, 3 ]
+}
+
+[sub_resource type="Animation" id=2]
+resource_name = "Idle"
+length = 0.8
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ 0, 1 ]
+}
+
+[sub_resource type="GDScript" id=4]
+script/source = "extends AnimationPlayer
+
+
+# Declare member variables here. Examples:
+# var a: int = 2
+# var b: String = \"text\"
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+#func _process(delta: float) -> void:
+#	pass
+"
+
+[sub_resource type="RectangleShape2D" id=5]
+extents = Vector2( 4, 4 )
+
+[node name="Machine_File" type="StaticBody2D"]
+collision_layer = 8
+collision_mask = 9
+script = ExtResource( 2 )
+
+[node name="Sprite" type="Sprite" parent="."]
+texture = ExtResource( 1 )
+centered = false
+offset = Vector2( -16, -16 )
+hframes = 4
+frame = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 16, 16 )
+shape = SubResource( 1 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/Complete = SubResource( 3 )
+anims/Idle = SubResource( 2 )
+script = SubResource( 4 )
+
+[node name="Ambient" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 3 )
+max_distance = 80.0
+
+[node name="Area_Occupier" type="Area2D" parent="."]
+visible = false
+collision_layer = 512
+collision_mask = 0
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Area_Occupier"]
+polygon = PoolVector2Array( 0, 0, 32, 0, 32, 16, 40, 16, 40, 24, 32, 24, 32, 32, 0, 32, 0, 16, -8, 16, -8, 8, 0, 8, 0, 0 )
+
+[node name="Input1" type="Position2D" parent="."]
+position = Vector2( -4, 12 )
+
+[node name="Input_Detector" type="Area2D" parent="Input1"]
+collision_layer = 520
+collision_mask = 304
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Input1/Input_Detector"]
+position = Vector2( 4, 0 )
+shape = SubResource( 5 )
+
+[node name="Input2" type="Position2D" parent="."]
+position = Vector2( 28, 20 )
+
+[node name="Input_Detector" type="Area2D" parent="Input2"]
+collision_layer = 520
+collision_mask = 304
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Input2/Input_Detector"]
+position = Vector2( 4, 0 )
+shape = SubResource( 5 )
+
+[node name="WinPlayer" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 6 )
+volume_db = 10.0
+
+[node name="NoPlayer" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 4 )
+max_distance = 400.0
+
+[node name="YesPlayer" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 5 )
+max_distance = 400.0

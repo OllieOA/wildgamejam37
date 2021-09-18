@@ -105,38 +105,51 @@ func _process(_delta) -> void:
 	# Handle inputs to set ghost
 	if Input.is_action_just_pressed("selector_1"):
 		# Conveyor
-		# if unlocked.conveyor:
-			
-		remove_current_ghost()  # Clear current selection
-		show_build_select_tooltip("CONVEYOR")
-		ghost_scene_to_load = "res://Scenes/Machines/Ghost_Machine_Conveyor.tscn"
-		build_scene_to_load = "res://Scenes/Machines/Machine_Conveyor.tscn"
-		building = true
-		load_ghost()
+		if unlocker.bit_conveyor:
+			remove_current_ghost()  # Clear current selection
+			show_build_select_tooltip("BIT CONVEYOR")
+			ghost_scene_to_load = "res://Scenes/Machines/Ghost_Machine_Conveyor.tscn"
+			build_scene_to_load = "res://Scenes/Machines/Machine_Conveyor.tscn"
+			building = true
+			load_ghost()
 	if Input.is_action_just_pressed("selector_2"):
-		# Miner
-		remove_current_ghost()  # Clear current selection
-		show_build_select_tooltip("MINER")
-		ghost_scene_to_load = "res://Scenes/Machines/Ghost_Machine_Miner.tscn"
-		build_scene_to_load = "res://Scenes/Machines/Machine_Miner.tscn"
-		building = true
-		load_ghost()
+		# Splitter
+		if unlocker.splitter:
+			remove_current_ghost()  # Clear current selection
+			show_build_select_tooltip("SPLITTER")
+			ghost_scene_to_load = "res://Scenes/Machines/Ghost_Machine_Splitter.tscn"
+			build_scene_to_load = "res://Scenes/Machines/Machine_Splitter.tscn"
+			building = true
+			load_ghost()
 	if Input.is_action_just_pressed("selector_3"):
-		building = true
+		# Miner
+		if unlocker.miner:
+			remove_current_ghost()  # Clear current selection
+			show_build_select_tooltip("MINER")
+			ghost_scene_to_load = "res://Scenes/Machines/Ghost_Machine_Miner.tscn"
+			build_scene_to_load = "res://Scenes/Machines/Machine_Miner.tscn"
+			building = true
+			load_ghost()
 	if Input.is_action_just_pressed("selector_4"):
-		building = true
+		# Bit Stacker
+		if unlocker.bit_stacker:
+			building = true
 	if Input.is_action_just_pressed("selector_5"):
-		building = true
+		# Flipper
+		if unlocker.flipper:
+			building = true
 	if Input.is_action_just_pressed("selector_6"):
-		building = true
+		# OR Builder
+		if unlocker.or_builder:
+			building = true
 	if Input.is_action_just_pressed("selector_7"):
-		building = true
+		# Byte Conveyor
+		if unlocker.byte_conveyor:
+			building = true
 	if Input.is_action_just_pressed("selector_8"):
-		building = true
-	if Input.is_action_just_pressed("selector_9"):
-		building = true
-	if Input.is_action_just_pressed("selector_0"):
-		building = true
+		# Byte Stacker
+		if unlocker.byte_stacker:
+			building = true
 
 	if building:
 		# Handle input to rotate
@@ -155,7 +168,6 @@ func _process(_delta) -> void:
 		
 		var rotation_offset_amounts = ghost_entity.rotation_offset[int(ghost_handler.rotation_degrees)]
 		rotation_offset = Vector2(rotation_offset_amounts[0], rotation_offset_amounts[1])
-			
 
 		# Update ghost position
 		if ghost_loaded:
@@ -182,9 +194,14 @@ func _process(_delta) -> void:
 			var build_instance = build_scene.instance()
 			build_instance.rotation_degrees = ghost_handler.rotation_degrees
 			build_instance.global_position = ghost_handler.global_position
+			if not ghost_entity.get("miner_bit_string") == null:
+				# This is a miner
+				build_instance.bit_string = ghost_entity.miner_bit_string
 			
 			var destination_node = "Machines"
 			if "Conveyor" in build_scene_to_load:
+				destination_node = "Machines_Conveyors"
+			if "Splitter" in build_scene_to_load:
 				destination_node = "Machines_Conveyors"
 				
 			get_tree().get_current_scene().get_node(destination_node).add_child(build_instance)
@@ -200,7 +217,6 @@ func _process(_delta) -> void:
 		for area in area_checker.get_overlapping_areas():
 			if "Machine" in area.get_name():
 				nodes_to_delete.append(area)
-			
 		for node in nodes_to_delete:
 			node.queue_free()
 			
@@ -222,6 +238,7 @@ func instance_tooltip(tooltip_to_instance, body):
 
 
 func remove_current_ghost():
+	texture = load(base_texture)
 	if ghost_handler.get_child_count() > 0:
 		for child in ghost_handler.get_children():
 			child.queue_free()

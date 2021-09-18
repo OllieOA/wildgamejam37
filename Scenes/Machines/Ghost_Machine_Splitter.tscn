@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://Assets/Art/Machines/machine_conveyor.png" type="Texture" id=1]
-[ext_resource path="res://Scenes/Machines/Ghost_Machine_Conveyor.gd" type="Script" id=2]
+[ext_resource path="res://Assets/Art/Machines/machine_splitter.png" type="Texture" id=1]
+[ext_resource path="res://Scenes/Machines/Ghost_Machine_Splitter.gd" type="Script" id=2]
 [ext_resource path="res://Assets/Art/UI/ui_arrow.png" type="Texture" id=3]
 
 [sub_resource type="Animation" id=1]
@@ -44,7 +44,13 @@ position = Vector2( 4, 4 )
 shape = SubResource( 2 )
 
 [node name="ArrowSprite" type="Sprite" parent="."]
-position = Vector2( 8, 0 )
+rotation = 4.71239
+texture = ExtResource( 3 )
+centered = false
+
+[node name="ArrowSprite3" type="Sprite" parent="."]
+position = Vector2( 8, 8 )
+rotation = 1.5708
 texture = ExtResource( 3 )
 centered = false
 

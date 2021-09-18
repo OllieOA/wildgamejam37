@@ -1,11 +1,15 @@
 extends Area2D
 class_name Belt
 
-var conveyor_velocity = Vector2.ZERO
-var conveyor_direction = Vector2.ZERO
+var conveyor_velocity
+var conveyor_direction
 onready var animator = $AnimationPlayer
 
 func _ready():
+	
+	conveyor_direction = Vector2.ZERO
+	conveyor_velocity = Vector2.ZERO
+	
 	animator.add_to_group("belt_animations", true)
 	animator.play("Convey")
 	

@@ -1,7 +1,7 @@
 extends StaticBody2D
 
-var bit_string
-export (PackedScene) var Minable_Unit
+var bit_string = "0"
+onready var Minable_Unit = preload("res://Scenes/Moving_Entities/Bit_Minable.tscn")
 
 onready var animator = $AnimationPlayer
 onready var audio_player = $AudioStreamPlayer2D
@@ -30,7 +30,7 @@ func _ready():
 	
 	self.add_to_group("miners", true)
 	
-	bit_string = "10"
+	# Get bit string from caches	
 	spawned_instance_id = null
 	blocked = false
 	ready_to_produce = true
@@ -42,25 +42,7 @@ func _ready():
 		270: [0, -8]
 	}
 	
-#	enabled = false
-#	animator.play("Idle")
-#
-#	# Set timer to emulate gameplay
-#	var timer = Timer.new()
-#	timer.set_wait_time(3)
-#	self.add_child(timer)
-#	timer.start()
-#
-#	yield(timer, "timeout")
 	enabled = true
-	
-	# timer.queue_free()
-	
-	# Create a looping timer for mining
-	# mine_timer.set_wait_time(tick_time)
-	# mine_timer.connect("timeout", self, "_on_mine_timeout")
-	# mine_timer.connect("timeout", self, "mine_unit")  # Temp until replaced with signal
-	# mine_timer.start()
 
 func _process(delta):
 	

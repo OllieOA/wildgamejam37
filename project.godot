@@ -13,9 +13,15 @@ _global_script_classes=[ {
 "class": "Belt",
 "language": "GDScript",
 "path": "res://Scenes/Classes/Belt.gd"
+}, {
+"base": "KinematicBody2D",
+"class": "Bit",
+"language": "GDScript",
+"path": "res://Scenes/Classes/Bit.gd"
 } ]
 _global_script_class_icons={
-"Belt": ""
+"Belt": "",
+"Bit": ""
 }
 
 [application]
@@ -36,6 +42,7 @@ channel_disable_threshold_db=-20.0
 
 helper="*res://Scenes/HelperFunction.gd"
 world_parameters="*res://Scenes/WorldParameters.gd"
+unlocker="*res://Scenes/UnlockStatus.gd"
 
 [debug]
 
@@ -197,6 +204,11 @@ rotate_anticlockwise={
 "events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":true,"control":false,"meta":false,"command":false,"pressed":false,"scancode":82,"unicode":0,"echo":false,"script":null)
  ]
 }
+debug_unlock={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":85,"unicode":0,"echo":false,"script":null)
+ ]
+}
 
 [layer_names]
 
@@ -210,6 +222,7 @@ rotate_anticlockwise={
 2d_physics/layer_8="cursor"
 2d_physics/layer_9="ghosts"
 2d_physics/layer_10="occupation"
+2d_physics/layer_11="cache"
 
 [physics]
 
