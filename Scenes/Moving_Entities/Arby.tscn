@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Assets/Art/Characters/ArbyG.png" type="Texture" id=1]
 [ext_resource path="res://Scenes/Moving_Entities/Arby.gd" type="Script" id=2]
+[ext_resource path="res://Assets/Art/UI/ui_E_button.png" type="Texture" id=3]
 
 [sub_resource type="Animation" id=1]
 resource_name = "Idle"
@@ -21,10 +22,26 @@ tracks/0/keys = {
 }
 
 [sub_resource type="CircleShape2D" id=2]
-radius = 20.3961
+radius = 28.2843
 
 [sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 12, 12 )
+
+[sub_resource type="AtlasTexture" id=6]
+atlas = ExtResource( 3 )
+region = Rect2( 0, 0, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=7]
+atlas = ExtResource( 3 )
+region = Rect2( 16, 0, 16, 16 )
+
+[sub_resource type="SpriteFrames" id=8]
+animations = [ {
+"frames": [ SubResource( 6 ), SubResource( 7 ) ],
+"loop": true,
+"name": "default",
+"speed": 3.0
+} ]
 
 [node name="Arby" type="StaticBody2D"]
 collision_layer = 64
@@ -34,9 +51,11 @@ script = ExtResource( 2 )
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/Idle = SubResource( 1 )
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="Dialogue_Checker" type="Area2D" parent="."]
+collision_layer = 64
+collision_mask = 2
 
-[node name="DialogCollision" type="CollisionShape2D" parent="Area2D"]
+[node name="DialogCollision" type="CollisionShape2D" parent="Dialogue_Checker"]
 position = Vector2( 12, 12 )
 shape = SubResource( 2 )
 
@@ -48,3 +67,13 @@ shape = SubResource( 3 )
 texture = ExtResource( 1 )
 centered = false
 hframes = 3
+
+[node name="Prompt" type="AnimatedSprite" parent="."]
+position = Vector2( 12, -6 )
+scale = Vector2( 0.8, 0.8 )
+frames = SubResource( 8 )
+frame = 1
+playing = true
+
+[connection signal="body_entered" from="Dialogue_Checker" to="." method="_on_Dialogue_Checker_body_entered"]
+[connection signal="body_exited" from="Dialogue_Checker" to="." method="_on_Dialogue_Checker_body_exited"]

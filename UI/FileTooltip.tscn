@@ -2,17 +2,17 @@
 
 [ext_resource path="res://Assets/Art/UI/ui_small_tooltip.png" type="Texture" id=1]
 [ext_resource path="res://Assets/Fonts/Pixeled.ttf" type="DynamicFontData" id=2]
-[ext_resource path="res://UI/BitTooltip.gd" type="Script" id=3]
-[ext_resource path="res://Assets/Fonts/pixel_20.tres" type="DynamicFont" id=4]
+[ext_resource path="res://UI/FileTooltip.gd" type="Script" id=3]
+[ext_resource path="res://Assets/Fonts/file_font.tres" type="DynamicFont" id=4]
 
 [sub_resource type="DynamicFont" id=1]
 size = 10
 font_data = ExtResource( 2 )
 
 [node name="Tooltip" type="Popup"]
-margin_right = 120.0
-margin_bottom = 75.0
-rect_min_size = Vector2( 110, 75 )
+margin_right = 150.0
+margin_bottom = 120.0
+rect_min_size = Vector2( 150, 125 )
 mouse_filter = 2
 script = ExtResource( 3 )
 __meta__ = {
@@ -46,27 +46,47 @@ __meta__ = {
 [node name="VBox" type="VBoxContainer" parent="Border/Margin"]
 margin_left = 2.0
 margin_top = 2.0
-margin_right = 118.0
-margin_bottom = 74.0
+margin_right = 148.0
+margin_bottom = 123.0
 mouse_filter = 2
 
 [node name="ValueTitle" type="Label" parent="Border/Margin/VBox"]
-margin_right = 116.0
+margin_right = 146.0
 margin_bottom = 28.0
 custom_fonts/font = SubResource( 1 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 custom_colors/font_color_shadow = Color( 0.552941, 0.552941, 0.552941, 1 )
-text = "UNIT VALUE:"
+text = "BITS NEEDED:"
 align = 1
 valign = 1
 
-[node name="ValueString" type="Label" parent="Border/Margin/VBox"]
+[node name="bit_1" type="Label" parent="Border/Margin/VBox"]
 margin_top = 32.0
-margin_right = 116.0
-margin_bottom = 72.0
+margin_right = 146.0
+margin_bottom = 56.0
 custom_fonts/font = ExtResource( 4 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 custom_colors/font_color_shadow = Color( 0.552941, 0.552941, 0.552941, 1 )
-text = "00000000"
+text = "00"
+align = 1
+valign = 1
+
+[node name="bit_2" type="Label" parent="Border/Margin/VBox"]
+margin_top = 60.0
+margin_right = 146.0
+margin_bottom = 84.0
+custom_fonts/font = ExtResource( 4 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_colors/font_color_shadow = Color( 0.552941, 0.552941, 0.552941, 1 )
+align = 1
+valign = 1
+
+[node name="bit_3" type="Label" parent="Border/Margin/VBox"]
+margin_top = 88.0
+margin_right = 146.0
+margin_bottom = 112.0
+custom_fonts/font = ExtResource( 4 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_colors/font_color_shadow = Color( 0.552941, 0.552941, 0.552941, 1 )
 align = 1
 valign = 1

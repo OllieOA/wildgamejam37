@@ -86,8 +86,9 @@ anims/Running = SubResource( 3 )
 script = SubResource( 4 )
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+position = Vector2( 8, 8 )
 stream = ExtResource( 3 )
-max_distance = 80.0
+max_distance = 40.0
 
 [node name="Output1" type="Position2D" parent="."]
 position = Vector2( 20, 4 )

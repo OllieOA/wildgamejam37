@@ -3,24 +3,36 @@ extends KinematicBody2D
 var speed = 100.0
 
 var external_velocity = Vector2.ZERO
-# TODO - get this conveyor speed from the conveyor scene object
-var conveyor_speed = 0.3
 var belt_list: Array = [] # For determining the order in which belts are seen
 var belt_dict: Dictionary = {} # For determining the velocity of a keyed belt
-export var display_velocity = Vector2.ZERO
-export var curr_position = Vector2.ZERO
+var curr_position = Vector2.ZERO
 
 # Get nodes
 onready var sprite_body = $Body
 onready var animator = $AnimationPlayer
 onready var activity_checker = $ActivityChecker
+var blip_particles
+var Particle_Explosion = preload("res://Scenes/Moving_Entities/BLIPExplosion.tscn")
+var prevent_movement
+var destroying_blip = false
+
 
 func _ready():
+	prevent_movement = false
 	animator.play("Idle")
-	
+		
 	# Initialise the belt vars
 	belt_list = []
 	belt_dict = {}
+	
+	blip_particles = load("res://Assets/Art/Characters/BLIP_base_actual.png")
+
+
+func _process(delta: float) -> void:
+	
+	if unlocker.destroy_blip and not destroying_blip:
+		destroying_blip = true
+		destroy_blip()
 
 
 func _physics_process(_delta):
@@ -55,17 +67,17 @@ func _physics_process(_delta):
 	
 	if not belt_dict.empty():
 		var external_direction = check_external_velocity()
-		external_velocity = external_direction * conveyor_speed
+		external_velocity = external_direction * world_parameters.conveyor_speed
 		move_and_slide_velocity = (velocity + external_velocity) * speed
 	else:
 		move_and_slide_velocity = velocity * speed
-	move_and_slide(move_and_slide_velocity)
-	display_velocity = move_and_slide_velocity
+	if not prevent_movement:
+		move_and_slide(move_and_slide_velocity)
 	
 	curr_position = self.global_position
 
 	# Add in mechanics for an idle BLIP
-	if _check_if_idle():
+	if _check_if_idle() and not prevent_movement:
 		animator.play("Idle")
 		# Allow BLIP to face mouse
 		if get_global_mouse_position().x > curr_position.x && not sprite_body.flip_h:
@@ -73,16 +85,6 @@ func _physics_process(_delta):
 		elif get_global_mouse_position().x < curr_position.x && sprite_body.flip_h:
 			sprite_body.flip_h = false
 
-
-#func check_external_velocity(external_belt_list, external_belt_dict) -> Vector2:
-#	var belt_check_direction = Vector2.ZERO
-#	if external_belt_list.empty():
-#		return belt_check_direction
-#	else:
-#		var current_active_belt = external_belt_list[0]
-#		belt_check_direction = external_belt_dict[current_active_belt]
-#	belt_check_direction = belt_check_direction.normalized()
-#	return belt_check_direction
 
 func check_external_velocity():
 	var belt_check_direction = Vector2.ZERO
@@ -126,3 +128,22 @@ func _move_down(velocity) -> Vector2:
 	velocity.y += 1.0
 	animator.play("Run")
 	return velocity
+	
+func destroy_blip():
+	# Destroy and explode
+	
+	prevent_movement = true
+	var timer = Timer.new()
+	self.add_child(timer)
+	
+	# Add particle effect and remove sprite
+	var particle_effect = Particle_Explosion.instance()
+	particle_effect.global_position = global_position + Vector2(12.5, 12.5)
+	get_tree().get_current_scene().add_child(particle_effect)
+	particle_effect.initialize(blip_particles, sprite_body.flip_h)
+	sprite_body.visible = false
+	
+#	# Time to scene destruction
+#	timer.connect("timeout", self, "queue_free")
+#	timer.set_wait_time(particle_effect.lifetime)
+#	timer.start()

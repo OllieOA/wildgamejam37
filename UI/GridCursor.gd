@@ -2,6 +2,7 @@ extends Sprite
 
 onready var bit_tool_tip = preload("res://UI/BitTooltip.tscn")
 onready var miner_tool_tip = preload("res://UI/MinerTooltip.tscn")
+onready var file_tool_tip = preload("res://UI/FileTooltip.tscn")
 
 var base_texture = "res://Assets/Art/UI/ui_build_cursor.png"
 var destroy_texture = "res://Assets/Art/UI/ui_destroy_cursor.png"
@@ -64,12 +65,18 @@ func _process(_delta) -> void:
 			if "Bit" in body.get_name():
 				current_tooltip_body = body.get_name()
 				# Instance the tooltip
-				instance_tooltip(bit_tool_tip, body)
+				instance_tooltip(bit_tool_tip, body, "Bit")
 				
 			elif "Miner" in body.get_name():
 				current_tooltip_body = body.get_name()
 				# Instance the tooltip
-				instance_tooltip(miner_tool_tip, body)
+				instance_tooltip(miner_tool_tip, body, "Miner")
+				
+			elif "File" in body.get_name():
+				current_tooltip_body = body.get_name()
+				instance_tooltip(file_tool_tip, body, "File")
+				
+				# Instance the tooltip
 				
 	if tooltip_showing:
 		if not current_tooltip_body in area_checker.get_overlapping_bodies() and not destroying_tooltip:
@@ -112,6 +119,10 @@ func _process(_delta) -> void:
 			build_scene_to_load = "res://Scenes/Machines/Machine_Conveyor.tscn"
 			building = true
 			load_ghost()
+		else:
+			remove_current_ghost()  # Clear current selection
+			show_build_select_tooltip("NOT YET UNLOCKED")
+			building = false
 	if Input.is_action_just_pressed("selector_2"):
 		# Splitter
 		if unlocker.splitter:
@@ -121,6 +132,10 @@ func _process(_delta) -> void:
 			build_scene_to_load = "res://Scenes/Machines/Machine_Splitter.tscn"
 			building = true
 			load_ghost()
+		else:
+			remove_current_ghost()  # Clear current selection
+			show_build_select_tooltip("NOT YET UNLOCKED")
+			building = false
 	if Input.is_action_just_pressed("selector_3"):
 		# Miner
 		if unlocker.miner:
@@ -130,26 +145,55 @@ func _process(_delta) -> void:
 			build_scene_to_load = "res://Scenes/Machines/Machine_Miner.tscn"
 			building = true
 			load_ghost()
+		else:
+			remove_current_ghost()  # Clear current selection
+			show_build_select_tooltip("NOT YET UNLOCKED")
+			building = false
 	if Input.is_action_just_pressed("selector_4"):
 		# Bit Stacker
 		if unlocker.bit_stacker:
 			building = true
+		else:
+			remove_current_ghost()  # Clear current selection
+			show_build_select_tooltip("NOT YET UNLOCKED")
+			building = false
 	if Input.is_action_just_pressed("selector_5"):
 		# Flipper
 		if unlocker.flipper:
+			remove_current_ghost()
+			show_build_select_tooltip("FLIPPER")
+			ghost_scene_to_load = "res://Scenes/Machines/Ghost_Machine_Flipper.tscn"
+			build_scene_to_load = "res://Scenes/Machines/Machine_Flipper.tscn"
 			building = true
+			load_ghost()
+		else:
+			remove_current_ghost()  # Clear current selection
+			show_build_select_tooltip("NOT YET UNLOCKED")
+			building = false
 	if Input.is_action_just_pressed("selector_6"):
 		# OR Builder
 		if unlocker.or_builder:
 			building = true
+		else:
+			remove_current_ghost()  # Clear current selection
+			show_build_select_tooltip("NOT YET UNLOCKED")
+			building = false
 	if Input.is_action_just_pressed("selector_7"):
 		# Byte Conveyor
 		if unlocker.byte_conveyor:
 			building = true
+		else:
+			remove_current_ghost()  # Clear current selection
+			show_build_select_tooltip("NOT YET UNLOCKED")
+			building = false
 	if Input.is_action_just_pressed("selector_8"):
 		# Byte Stacker
 		if unlocker.byte_stacker:
 			building = true
+		else:
+			remove_current_ghost()  # Clear current selection
+			show_build_select_tooltip("NOT YET UNLOCKED")
+			building = false
 
 	if building:
 		# Handle input to rotate
@@ -223,19 +267,33 @@ func _process(_delta) -> void:
 		update_collision_mask(false)
 
 
-func instance_tooltip(tooltip_to_instance, body):
+func instance_tooltip(tooltip_to_instance, body, type):
 	# Instance the tooltip
 	var tooltip_instance = tooltip_to_instance.instance()
 	tooltip_instance.rect_scale = Vector2(0.25, 0.25)
 	tooltip_instance.rect_position = build_position + Vector2(16, 0)
-	tooltip_instance.bit_value = body.bit_string
+	
+	# Populate the tooltip based on the type
+	if type == "Miner":
+		tooltip_instance.bit_value = body.bit_string
+	if type == "Bit":
+		tooltip_instance.bit_value = body.bit_string
+	if type == "File":
+		# Get all the desired bits and their status
+		var desired_bits = body.desired_bit_strings
+		var bit_status = body.bits_delivered
+		for bit_num in range(len(desired_bits)):
+			# Get the status and show it as either green or red
+			var curr_bit_string = desired_bits[bit_num]
+			tooltip_instance.set_label_value(body, curr_bit_string, bit_num)
+		
 	
 	add_child(tooltip_instance)
+	tooltip_showing = true
 	yield(get_tree().create_timer(0.1), "timeout")
 	if has_node("Tooltip"):
 		get_node("Tooltip").show()
-	tooltip_showing = true
-
+		
 
 func remove_current_ghost():
 	texture = load(base_texture)

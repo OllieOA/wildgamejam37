@@ -1,8 +1,8 @@
 [gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Assets/Art/UI/debug_single_pixel.png" type="Texture" id=1]
-[ext_resource path="res://Assets/Art/UI/debug_test_unit.png" type="Texture" id=2]
-[ext_resource path="res://Scenes/Moving_Entities/BitExplosion.gd" type="Script" id=3]
+[ext_resource path="res://Assets/Art/Characters/BLIP_base_actual.png" type="Texture" id=2]
+[ext_resource path="res://Scenes/Moving_Entities/BLIPExplosion.gd" type="Script" id=3]
 [ext_resource path="res://Assets/Sounds/bit_break1.ogg" type="AudioStream" id=4]
 
 [sub_resource type="Shader" id=1]
@@ -178,6 +178,9 @@ void vertex() {
 	TRANSFORM[1].xyz *= base_scale;
 	TRANSFORM[2].xyz *= base_scale;
 	VELOCITY.z = 0.0;
+	if (COLOR.a > 0.0){
+		COLOR.a -= 1.0 / LIFETIME * DELTA
+	}
 //	if (CUSTOM.y > LIFETIME * 0.8){
 //		if (COLOR.a > 0.0){
 //		COLOR.a = COLOR.a - 3.0 / LIFETIME * DELTA;
@@ -195,10 +198,10 @@ void vertex() {
 
 [sub_resource type="ShaderMaterial" id=2]
 shader = SubResource( 1 )
-shader_param/direction = Vector3( 0, 0, 0 )
+shader_param/direction = Vector3( 0, -100, 0 )
 shader_param/spread = 45.0
 shader_param/flatness = 0.0
-shader_param/initial_linear_velocity = 5.0
+shader_param/initial_linear_velocity = 3.0
 shader_param/initial_angle = 0.0
 shader_param/angular_velocity = 0.0
 shader_param/orbit_velocity = 0.0
@@ -206,7 +209,7 @@ shader_param/linear_accel = -40.0
 shader_param/radial_accel = 0.0
 shader_param/tangent_accel = 0.0
 shader_param/damping = 10.0
-shader_param/scale = 1.5
+shader_param/scale = 2.0
 shader_param/hue_variation = 0.0
 shader_param/anim_speed = 0.0
 shader_param/anim_offset = 0.0
@@ -223,17 +226,18 @@ shader_param/hue_variation_random = 0.0
 shader_param/anim_speed_random = 0.0
 shader_param/anim_offset_random = 0.0
 shader_param/lifetime_randomness = 0.0
-shader_param/emission_box_extents = Vector3( 3, 3, 1 )
+shader_param/emission_box_extents = Vector3( 10, 8, 1 )
 shader_param/color_value = Color( 1, 1, 1, 1 )
 shader_param/trail_divisor = 1
 shader_param/gravity = Vector3( 0, -1e-06, 0 )
 shader_param/sprite = ExtResource( 2 )
 
-[node name="BitExplosion" type="Particles2D"]
+[node name="BLIPExplosion" type="Particles2D"]
 position = Vector2( 32, 88 )
+scale = Vector2( 0.8, 0.8 )
 emitting = false
-amount = 80
-lifetime = 0.5
+amount = 1600
+lifetime = 2.0
 one_shot = true
 explosiveness = 1.0
 process_material = SubResource( 2 )

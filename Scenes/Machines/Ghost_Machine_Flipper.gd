@@ -10,13 +10,10 @@ var clear_of_bodies
 var on_cache
 var clear_from_machines
 onready var belt_check_area = $BeltCheckArea
-var miner_bit_string
 
 var rotation_offset
 
 func _ready() -> void:
-	miner_bit_string = null
-	on_cache = false
 	clear_from_machines = false
 	modulate.a8 = int(255 * 0.6)
 	buildable = true
@@ -24,13 +21,11 @@ func _ready() -> void:
 	clear_of_bodies = true
 	build_offset = Vector2(-8, -8)
 	rotation_offset = {
-		0: [0, 0],
-		90: [16, 0],
+		0: [8, 8],
+		90: [16, 8],
 		180: [16, 16],
-		270: [0, 16]
+		270: [8, 16]
 	}
-
-var loop_counter = 0
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -49,25 +44,6 @@ func _process(delta: float) -> void:
 	for body in build_check_area.get_overlapping_bodies():
 		if "Machine" in body.get_name() or "Arby" in body.get_name():
 			no_machines = false
-	
-	# If there are 4 minable bit areas (and NONE in belt_overlapping), buildable
-	var bit_count = 0
-	for area in build_overlapping_areas:
-		if "Bit" in area.get_name():
-			bit_count += 1
-	if bit_count == 5:  # Covering 5
-		on_cache = true
-	elif bit_count == 4:  # Ensure this bit isn't in the belt area
-		var minable_in_belt = false
-		for area in belt_overlapping_areas:
-			if "Bit" in area.get_name():
-				minable_in_belt = true
-		if not minable_in_belt:
-			on_cache = true
-		else:
-			on_cache = false
-	else: 
-		on_cache = false
 
 	# Then, use machine logic
 	# Figure out what is colliding
@@ -106,11 +82,8 @@ func _process(delta: float) -> void:
 		clear_from_machines = false
 	
 	# Finally confirm can be built and provide the bit string
-	if on_cache and clear_from_machines:
+	if clear_from_machines:
 		buildable = true
-		for area in build_check_area.get_overlapping_areas():
-			if "Bit" in area.get_name():
-				miner_bit_string = area.get_parent().give_bit_string()
 	else:
 		buildable = false
 

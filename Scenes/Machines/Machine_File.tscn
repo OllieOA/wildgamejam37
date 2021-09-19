@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://Assets/Art/Machines/machine_file_bits.png" type="Texture" id=1]
 [ext_resource path="res://Scenes/Machines/Machine_File.gd" type="Script" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://Assets/Sounds/wrong_bit.ogg" type="AudioStream" id=4]
 [ext_resource path="res://Assets/Sounds/right_bit.ogg" type="AudioStream" id=5]
 [ext_resource path="res://Assets/Sounds/win.ogg" type="AudioStream" id=6]
+[ext_resource path="res://Assets/Art/UI/ui_E_button.png" type="Texture" id=7]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 16, 16 )
@@ -66,9 +67,28 @@ func _ready() -> void:
 [sub_resource type="RectangleShape2D" id=5]
 extents = Vector2( 4, 4 )
 
+[sub_resource type="AtlasTexture" id=6]
+atlas = ExtResource( 7 )
+region = Rect2( 0, 0, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=7]
+atlas = ExtResource( 7 )
+region = Rect2( 16, 0, 16, 16 )
+
+[sub_resource type="SpriteFrames" id=8]
+animations = [ {
+"frames": [ SubResource( 6 ), SubResource( 7 ) ],
+"loop": true,
+"name": "default",
+"speed": 2.0
+} ]
+
+[sub_resource type="CircleShape2D" id=9]
+radius = 40.0
+
 [node name="Machine_File" type="StaticBody2D"]
 collision_layer = 8
-collision_mask = 9
+collision_mask = 392
 script = ExtResource( 2 )
 
 [node name="Sprite" type="Sprite" parent="."]
@@ -88,8 +108,10 @@ anims/Idle = SubResource( 2 )
 script = SubResource( 4 )
 
 [node name="Ambient" type="AudioStreamPlayer2D" parent="."]
+position = Vector2( 16, 16 )
 stream = ExtResource( 3 )
-max_distance = 80.0
+volume_db = -10.0
+max_distance = 40.0
 
 [node name="Area_Occupier" type="Area2D" parent="."]
 visible = false
@@ -122,13 +144,34 @@ position = Vector2( 4, 0 )
 shape = SubResource( 5 )
 
 [node name="WinPlayer" type="AudioStreamPlayer2D" parent="."]
+position = Vector2( 16, 16 )
 stream = ExtResource( 6 )
 volume_db = 10.0
 
 [node name="NoPlayer" type="AudioStreamPlayer2D" parent="."]
+position = Vector2( 16, 16 )
 stream = ExtResource( 4 )
-max_distance = 400.0
+max_distance = 80.0
 
 [node name="YesPlayer" type="AudioStreamPlayer2D" parent="."]
+position = Vector2( 16, 16 )
 stream = ExtResource( 5 )
-max_distance = 400.0
+max_distance = 80.0
+
+[node name="Prompt" type="AnimatedSprite" parent="."]
+position = Vector2( 16, 16 )
+scale = Vector2( 0.8, 0.8 )
+frames = SubResource( 8 )
+frame = 1
+playing = true
+
+[node name="BLIP_Checker" type="Area2D" parent="."]
+position = Vector2( 16, 16 )
+collision_layer = 64
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BLIP_Checker"]
+shape = SubResource( 9 )
+
+[connection signal="body_entered" from="BLIP_Checker" to="." method="_on_BLIP_Checker_body_entered"]
+[connection signal="body_exited" from="BLIP_Checker" to="." method="_on_BLIP_Checker_body_exited"]

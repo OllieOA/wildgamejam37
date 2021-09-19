@@ -25,7 +25,7 @@ func _process(delta: float) -> void:
 	buildable = true	
 	# Decide if item is buildable
 	for body in build_check_area.get_overlapping_bodies():
-		if "Machine" in body.get_name():
+		if "Machine" in body.get_name() or "Arby" in body.get_name():
 			buildable = false
 	
 	for area in build_check_area.get_overlapping_areas():
