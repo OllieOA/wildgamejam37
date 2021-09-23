@@ -1,0 +1,37 @@
+[
+	{
+		"Name": "ArbyG",
+		"Emotion": "Neutral",
+		"Text": "These files can be demanding. This one wants two DIFFERENT bits! The gall..."
+	},
+	{
+		"Name": "BLIP",
+		"Emotion": "Neutral",
+		"Text": "All good with me! This is great fun!"
+	},
+	{
+		"Name": "ArbyG",
+		"Emotion": "Sad",
+		"Text": "Oh... I wish I could work with you..."
+	},
+	{
+		"Name": "BLIP",
+		"Emotion": "Confused",
+		"Text": "Why don't you?"
+	},
+	{
+		"Name": "ArbyG",
+		"Emotion": "Confused",
+		"Text": "Well... isn't it obvious? I'm the manager. I can't build machines and move dirty bits around..."
+	},
+	{
+		"Name": "ArbyG",
+		"Emotion": "Happy",
+		"Text": "I'd stain my tie!!"
+	},
+	{
+		"Name": "BLIP",
+		"Emotion": "Sad",
+		"Text": "Okay... I guess I'll just work alone..."
+	}
+]

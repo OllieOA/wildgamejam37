@@ -3,6 +3,9 @@ extends Sprite
 onready var bit_tool_tip = preload("res://UI/BitTooltip.tscn")
 onready var miner_tool_tip = preload("res://UI/MinerTooltip.tscn")
 onready var file_tool_tip = preload("res://UI/FileTooltip.tscn")
+onready var bitstacker_tip = preload("res://UI/bitStackerTooltip.tscn")
+onready var orbuilder_tip = preload("res://UI/orBuilderTooltip.tscn")
+onready var flipper_tip = preload("res://UI/FlipperTooltip.tscn")
 
 var base_texture = "res://Assets/Art/UI/ui_build_cursor.png"
 var destroy_texture = "res://Assets/Art/UI/ui_destroy_cursor.png"
@@ -36,9 +39,19 @@ var current_tooltip_body
 var destroying_tooltip
 onready var build_select_tooltip_text = $Label
 onready var build_select_tooltip_tween = $Label/Tween
+onready var level_scene = null
+var current_tooltip_type
+var current_tooltip_instance
+var current_body
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	# Get the level
+	for leaf_nodes in get_tree().get_root().get_children():
+		if "Level" in leaf_nodes.get_name():
+			level_scene = leaf_nodes
+	
+	
 	modulate.a8 = int(255 * alpha)
 	building = false
 	destroying = false
@@ -52,8 +65,12 @@ func _process(_delta) -> void:
 	
 	#  Update cursor position and snap to axis
 	var current_mouse_position = get_global_mouse_position()
-	var snapped_x = helper.snap_axis(current_mouse_position.x + snap_size / 2, snap_size) - snap_size
-	var snapped_y = helper.snap_axis(current_mouse_position.y + snap_size / 2, snap_size) - snap_size
+	var snapped_x = helper.snap_axis(current_mouse_position.x + snap_size / 3, snap_size) - snap_size
+	var snapped_y = helper.snap_axis(current_mouse_position.y + snap_size / 3, snap_size) - snap_size
+
+	# Clamp the cursor to the build area
+	snapped_x = clamp(snapped_x, level_scene.level_bound_l + (3 * world_parameters.snap_size), level_scene.level_bound_r - (3 * world_parameters.snap_size))
+	snapped_y = clamp(snapped_y, level_scene.level_bound_u + (3 * world_parameters.snap_size), level_scene.level_bound_d - (3 * world_parameters.snap_size))
 	
 	build_position = Vector2(snapped_x, snapped_y)
 	global_position.x = snapped_x # Force this to be in the centre of the mouse
@@ -64,34 +81,62 @@ func _process(_delta) -> void:
 		for body in area_checker.get_overlapping_bodies():
 			if "Bit" in body.get_name():
 				current_tooltip_body = body.get_name()
-				# Instance the tooltip
-				instance_tooltip(bit_tool_tip, body, "Bit")
+				current_tooltip_instance = bit_tool_tip
+				current_tooltip_type = "Bit"
+				current_body = body
+				instance_tooltip(current_tooltip_instance, current_body, current_tooltip_type)
 				
 			elif "Miner" in body.get_name():
 				current_tooltip_body = body.get_name()
-				# Instance the tooltip
-				instance_tooltip(miner_tool_tip, body, "Miner")
+				current_tooltip_instance = miner_tool_tip
+				current_tooltip_type = "Miner"
+				current_body = body
+				instance_tooltip(current_tooltip_instance, current_body, current_tooltip_type)
 				
 			elif "File" in body.get_name():
+				current_tooltip_instance = file_tool_tip
+				current_tooltip_type = "File"
 				current_tooltip_body = body.get_name()
-				instance_tooltip(file_tool_tip, body, "File")
+				current_body = body
+				instance_tooltip(current_tooltip_instance, current_body, current_tooltip_type)
 				
-				# Instance the tooltip
+			elif "bitStacker" in body.get_name():
+				current_tooltip_instance = bitstacker_tip
+				current_tooltip_type = "bitStacker"
+				current_tooltip_body = body.get_name()
+				current_body = body
+				instance_tooltip(current_tooltip_instance, current_body, current_tooltip_type)
+				
+			elif "orBuilder" in body.get_name():
+				current_tooltip_instance = orbuilder_tip
+				current_tooltip_type = "orBuilder"
+				current_tooltip_body = body.get_name()
+				current_body = body
+				instance_tooltip(current_tooltip_instance, current_body, current_tooltip_type)
+				
+			elif "Flipper" in body.get_name():
+				current_tooltip_instance = flipper_tip
+				current_tooltip_type = "Flipper"
+				current_tooltip_body = body.get_name()
+				current_body = body
+				instance_tooltip(current_tooltip_instance, current_body, current_tooltip_type)
 				
 	if tooltip_showing:
-		if not current_tooltip_body in area_checker.get_overlapping_bodies() and not destroying_tooltip:
+		var current_bodies = area_checker.get_overlapping_bodies()
+		var still_hovering = false
+		for body in current_bodies:
+			if current_tooltip_body in body.get_name():
+				still_hovering = true
+				
+		if not still_hovering and not destroying_tooltip:
 			destroying_tooltip = true
 			var timer_tooltip_destroy = Timer.new()
 			timer_tooltip_destroy.one_shot = true
 			add_child(timer_tooltip_destroy)
-			timer_tooltip_destroy.set_wait_time(1)
+			timer_tooltip_destroy.set_wait_time(0.5)  # Time to destroy
 			timer_tooltip_destroy.connect("timeout", self, "_on_tooltip_destory_timeout")
 			timer_tooltip_destroy.start()
 
-	# Test to see if tooltip has died
-#	if tooltip_showing:
-#		if tooltip_instance.
-		
 	
 	# Handle build cancellation (C)
 	if Input.is_action_just_pressed("cancel_build"):
@@ -152,7 +197,12 @@ func _process(_delta) -> void:
 	if Input.is_action_just_pressed("selector_4"):
 		# Bit Stacker
 		if unlocker.bit_stacker:
+			remove_current_ghost()  # Clear current selection
+			show_build_select_tooltip("BIT STACKER")
+			ghost_scene_to_load = "res://Scenes/Machines/Ghost_Machine_bitStacker.tscn"
+			build_scene_to_load = "res://Scenes/Machines/Machine_bitStacker.tscn"
 			building = true
+			load_ghost()
 		else:
 			remove_current_ghost()  # Clear current selection
 			show_build_select_tooltip("NOT YET UNLOCKED")
@@ -173,7 +223,12 @@ func _process(_delta) -> void:
 	if Input.is_action_just_pressed("selector_6"):
 		# OR Builder
 		if unlocker.or_builder:
+			remove_current_ghost()
+			show_build_select_tooltip("OR BUILDER")
+			ghost_scene_to_load = "res://Scenes/Machines/Ghost_Machine_orBuilder.tscn"
+			build_scene_to_load = "res://Scenes/Machines/Machine_orBuilder.tscn"
 			building = true
+			load_ghost()
 		else:
 			remove_current_ghost()  # Clear current selection
 			show_build_select_tooltip("NOT YET UNLOCKED")
@@ -184,7 +239,7 @@ func _process(_delta) -> void:
 			building = true
 		else:
 			remove_current_ghost()  # Clear current selection
-			show_build_select_tooltip("NOT YET UNLOCKED")
+			show_build_select_tooltip("NOT YET IMPLEMENTED :(")
 			building = false
 	if Input.is_action_just_pressed("selector_8"):
 		# Byte Stacker
@@ -192,7 +247,7 @@ func _process(_delta) -> void:
 			building = true
 		else:
 			remove_current_ghost()  # Clear current selection
-			show_build_select_tooltip("NOT YET UNLOCKED")
+			show_build_select_tooltip("NOT YET IMPLEMENTED :(")
 			building = false
 
 	if building:
@@ -256,7 +311,7 @@ func _process(_delta) -> void:
 		update_collision_mask(true)
 		var nodes_to_delete = []
 		for body in area_checker.get_overlapping_bodies():
-			if "Machine" in body.get_name():
+			if "Machine" in body.get_name() and not "File" in body.get_name():
 				nodes_to_delete.append(body)
 		for area in area_checker.get_overlapping_areas():
 			if "Machine" in area.get_name():
@@ -281,7 +336,6 @@ func instance_tooltip(tooltip_to_instance, body, type):
 	if type == "File":
 		# Get all the desired bits and their status
 		var desired_bits = body.desired_bit_strings
-		var bit_status = body.bits_delivered
 		for bit_num in range(len(desired_bits)):
 			# Get the status and show it as either green or red
 			var curr_bit_string = desired_bits[bit_num]

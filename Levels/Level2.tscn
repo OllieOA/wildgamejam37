@@ -1,0 +1,104 @@
+[gd_scene load_steps=13 format=2]
+
+[ext_resource path="res://Assets/Art/UI/level_ground_square.png" type="Texture" id=1]
+[ext_resource path="res://Scenes/Machines/Machine_File.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Scenes/Machines/Bit_Cache.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Scenes/MainCamera.gd" type="Script" id=4]
+[ext_resource path="res://UI/GridCursor.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Scenes/Moving_Entities/Arby.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Scenes/Moving_Entities/BLIP.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Levels/Level2.gd" type="Script" id=8]
+[ext_resource path="res://UI/GameMenu.tscn" type="PackedScene" id=9]
+[ext_resource path="res://Scenes/Machines/Hotbar.tscn" type="PackedScene" id=10]
+[ext_resource path="res://Assets/Sounds/MainGameMusic.ogg" type="AudioStream" id=11]
+[ext_resource path="res://Scenes/Machines/Bit_Cache_variant_0.tscn" type="PackedScene" id=12]
+
+[node name="Level2" type="Node2D"]
+script = ExtResource( 8 )
+
+[node name="Background" type="Sprite" parent="."]
+texture = ExtResource( 1 )
+centered = false
+
+[node name="Machines_Conveyors" type="Node2D" parent="."]
+
+[node name="Units" type="Node2D" parent="."]
+
+[node name="ParticleRenderLayer" type="Node2D" parent="Units"]
+
+[node name="Bit_Cache" parent="Units" instance=ExtResource( 3 )]
+position = Vector2( 168, 48 )
+
+[node name="Bit_Cache2" parent="Units" instance=ExtResource( 12 )]
+position = Vector2( 56, 200 )
+bit_string_set = "0"
+
+[node name="Machines" type="Node2D" parent="."]
+
+[node name="Machine_File" parent="Machines" instance=ExtResource( 2 )]
+position = Vector2( 104, 120 )
+desired_bit_strings = [ "0", "1" ]
+desired_quantities = {
+"0": 10,
+"1": 10
+}
+
+[node name="Arby" parent="." instance=ExtResource( 6 )]
+position = Vector2( 176, 104 )
+curr_level = 2
+
+[node name="BLIP" parent="." instance=ExtResource( 7 )]
+position = Vector2( 112, 56 )
+
+[node name="MainCamera" type="Camera2D" parent="BLIP"]
+position = Vector2( 12.0714, 18.1046 )
+current = true
+zoom = Vector2( 0.25, 0.25 )
+smoothing_enabled = true
+script = ExtResource( 4 )
+
+[node name="Tween" type="Tween" parent="BLIP/MainCamera"]
+
+[node name="GridCursor" parent="." instance=ExtResource( 5 )]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+pause_mode = 2
+
+[node name="DialogueRenderer" type="Control" parent="CanvasLayer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer"]
+visible = false
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 10.0
+margin_bottom = 10.0
+rect_scale = Vector2( 3, 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Hotbar" parent="CanvasLayer/MarginContainer" instance=ExtResource( 10 )]
+margin_left = 0.0
+margin_top = 0.0
+margin_right = 0.0
+margin_bottom = 0.0
+rect_scale = Vector2( 1, 1 )
+
+[node name="GameMenu" parent="CanvasLayer" instance=ExtResource( 9 )]
+visible = false
+margin_left = 800.0
+margin_top = 300.0
+margin_right = 1020.0
+margin_bottom = 350.0
+
+[node name="GameMusic" type="AudioStreamPlayer" parent="."]
+pause_mode = 2
+stream = ExtResource( 11 )
+bus = "Music"
+
+[editable path="Units/Bit_Cache"]

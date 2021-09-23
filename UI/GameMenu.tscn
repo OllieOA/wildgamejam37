@@ -1,0 +1,157 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://Assets/Fonts/menu_title_font.tres" type="DynamicFontData" id=1]
+[ext_resource path="res://Assets/Art/UI/ui_game_menu_base.png" type="Texture" id=2]
+[ext_resource path="res://Assets/Art/UI/ui_game_menu_button_base.png" type="Texture" id=3]
+[ext_resource path="res://Assets/Art/UI/ui_game_menu_button_clicked.png" type="Texture" id=4]
+[ext_resource path="res://UI/GameMenu.gd" type="Script" id=5]
+[ext_resource path="res://Assets/Sounds/menu_select.ogg" type="AudioStream" id=6]
+
+[sub_resource type="DynamicFont" id=1]
+size = 30
+outline_size = 2
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 1 )
+
+[sub_resource type="DynamicFont" id=2]
+size = 24
+outline_size = 2
+outline_color = Color( 0, 0, 0, 1 )
+extra_spacing_top = -15
+font_data = ExtResource( 1 )
+
+[node name="GameMenu" type="Control"]
+pause_mode = 2
+margin_right = 384.0
+margin_bottom = 400.0
+rect_min_size = Vector2( 220, 50 )
+size_flags_horizontal = 4
+script = ExtResource( 5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Menu_Base" type="NinePatchRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_bottom = 256.0
+rect_min_size = Vector2( 384, 656 )
+size_flags_horizontal = 2
+size_flags_vertical = 2
+texture = ExtResource( 2 )
+region_rect = Rect2( -4.34294, -3.10542, 326.486, 325.459 )
+patch_margin_left = 40
+patch_margin_top = 40
+patch_margin_right = 40
+patch_margin_bottom = 40
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MenuStuff" type="VBoxContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 32.0
+margin_right = -32.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="GameMenuTitle" type="Label" parent="MenuStuff"]
+margin_right = 320.0
+margin_bottom = 84.0
+custom_fonts/font = SubResource( 1 )
+text = "MENU"
+align = 1
+valign = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="MenuStuff"]
+margin_top = 88.0
+margin_right = 320.0
+margin_bottom = 108.0
+rect_min_size = Vector2( 0, 20 )
+
+[node name="ToggleMusic" type="TextureButton" parent="MenuStuff"]
+margin_top = 112.0
+margin_right = 320.0
+margin_bottom = 237.0
+size_flags_horizontal = 5
+texture_normal = ExtResource( 3 )
+texture_pressed = ExtResource( 4 )
+
+[node name="Label" type="Label" parent="MenuStuff/ToggleMusic"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_fonts/font = SubResource( 2 )
+text = "TOGGLE MUSIC"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ToggleSFX" type="TextureButton" parent="MenuStuff"]
+margin_top = 241.0
+margin_right = 320.0
+margin_bottom = 366.0
+size_flags_horizontal = 5
+texture_normal = ExtResource( 3 )
+texture_pressed = ExtResource( 4 )
+
+[node name="Label" type="Label" parent="MenuStuff/ToggleSFX"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_fonts/font = SubResource( 2 )
+text = "TOGGLE SOUND"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CloseMenu" type="TextureButton" parent="MenuStuff"]
+margin_top = 370.0
+margin_right = 320.0
+margin_bottom = 495.0
+size_flags_horizontal = 5
+texture_normal = ExtResource( 3 )
+texture_pressed = ExtResource( 4 )
+
+[node name="Label" type="Label" parent="MenuStuff/CloseMenu"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_fonts/font = SubResource( 2 )
+text = "CLOSE MENU"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ExitButton" type="TextureButton" parent="MenuStuff"]
+margin_top = 499.0
+margin_right = 320.0
+margin_bottom = 624.0
+size_flags_horizontal = 5
+texture_normal = ExtResource( 3 )
+texture_pressed = ExtResource( 4 )
+
+[node name="Label" type="Label" parent="MenuStuff/ExitButton"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_fonts/font = SubResource( 2 )
+text = "EXIT GAME"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MenuClick" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 6 )
+volume_db = -10.0
+
+[connection signal="pressed" from="MenuStuff/ToggleMusic" to="." method="_on_ToggleMusic_pressed"]
+[connection signal="pressed" from="MenuStuff/ToggleSFX" to="." method="_on_ToggleSFX_pressed"]
+[connection signal="pressed" from="MenuStuff/CloseMenu" to="." method="_on_CloseMenu_pressed"]
+[connection signal="pressed" from="MenuStuff/ExitButton" to="." method="_on_ExitButton_pressed"]

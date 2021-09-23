@@ -27,23 +27,24 @@ radius = 28.2843
 [sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 12, 12 )
 
-[sub_resource type="AtlasTexture" id=6]
+[sub_resource type="AtlasTexture" id=4]
 atlas = ExtResource( 3 )
 region = Rect2( 0, 0, 16, 16 )
 
-[sub_resource type="AtlasTexture" id=7]
+[sub_resource type="AtlasTexture" id=5]
 atlas = ExtResource( 3 )
 region = Rect2( 16, 0, 16, 16 )
 
-[sub_resource type="SpriteFrames" id=8]
+[sub_resource type="SpriteFrames" id=6]
 animations = [ {
-"frames": [ SubResource( 6 ), SubResource( 7 ) ],
+"frames": [ SubResource( 4 ), SubResource( 5 ) ],
 "loop": true,
 "name": "default",
 "speed": 3.0
 } ]
 
 [node name="Arby" type="StaticBody2D"]
+pause_mode = 2
 collision_layer = 64
 collision_mask = 2
 script = ExtResource( 2 )
@@ -71,8 +72,7 @@ hframes = 3
 [node name="Prompt" type="AnimatedSprite" parent="."]
 position = Vector2( 12, -6 )
 scale = Vector2( 0.8, 0.8 )
-frames = SubResource( 8 )
-frame = 1
+frames = SubResource( 6 )
 playing = true
 
 [connection signal="body_entered" from="Dialogue_Checker" to="." method="_on_Dialogue_Checker_body_entered"]

@@ -1,0 +1,157 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Scenes/Machines/Bit_Cache_large_1.gd" type="Script" id=1]
+[ext_resource path="res://Scenes/Moving_Entities/Bit_Cache_Element.tscn" type="PackedScene" id=2]
+
+[node name="Bit_Cache" type="Node2D"]
+script = ExtResource( 1 )
+
+[node name="Bit_Minable" parent="." instance=ExtResource( 2 )]
+position = Vector2( 24, 16 )
+
+[node name="Bit_Minable2" parent="." instance=ExtResource( 2 )]
+position = Vector2( 8, 0 )
+
+[node name="Bit_Minable3" parent="." instance=ExtResource( 2 )]
+position = Vector2( 16, 0 )
+
+[node name="Bit_Minable4" parent="." instance=ExtResource( 2 )]
+position = Vector2( 16, 8 )
+
+[node name="Bit_Minable5" parent="." instance=ExtResource( 2 )]
+position = Vector2( 8, 8 )
+
+[node name="Bit_Minable6" parent="." instance=ExtResource( 2 )]
+position = Vector2( 0, 8 )
+
+[node name="Bit_Minable7" parent="." instance=ExtResource( 2 )]
+position = Vector2( 0, 16 )
+
+[node name="Bit_Minable8" parent="." instance=ExtResource( 2 )]
+position = Vector2( 8, 16 )
+
+[node name="Bit_Minable9" parent="." instance=ExtResource( 2 )]
+position = Vector2( 16, 16 )
+
+[node name="Bit_Minable10" parent="." instance=ExtResource( 2 )]
+position = Vector2( 24, 8 )
+
+[node name="Bit_Minable11" parent="." instance=ExtResource( 2 )]
+position = Vector2( 24, 0 )
+
+[node name="Bit_Minable12" parent="." instance=ExtResource( 2 )]
+position = Vector2( 32, 8 )
+
+[node name="Bit_Minable13" parent="." instance=ExtResource( 2 )]
+position = Vector2( -8, 0 )
+
+[node name="Bit_Minable14" parent="." instance=ExtResource( 2 )]
+position = Vector2( 16, 24 )
+
+[node name="Bit_Minable15" parent="." instance=ExtResource( 2 )]
+position = Vector2( 8, 24 )
+
+[node name="Bit_Minable18" parent="." instance=ExtResource( 2 )]
+position = Vector2( 0, 24 )
+
+[node name="Bit_Minable19" parent="." instance=ExtResource( 2 )]
+position = Vector2( -8, 24 )
+
+[node name="Bit_Minable20" parent="." instance=ExtResource( 2 )]
+position = Vector2( 0, 32 )
+
+[node name="Bit_Minable21" parent="." instance=ExtResource( 2 )]
+position = Vector2( -8, 32 )
+
+[node name="Bit_Minable22" parent="." instance=ExtResource( 2 )]
+position = Vector2( -8, 40 )
+
+[node name="Bit_Minable23" parent="." instance=ExtResource( 2 )]
+position = Vector2( 0, 40 )
+
+[node name="Bit_Minable24" parent="." instance=ExtResource( 2 )]
+position = Vector2( 8, 32 )
+
+[node name="Bit_Minable25" parent="." instance=ExtResource( 2 )]
+position = Vector2( 8, 40 )
+
+[node name="Bit_Minable26" parent="." instance=ExtResource( 2 )]
+position = Vector2( 16, 32 )
+
+[node name="Bit_Minable27" parent="." instance=ExtResource( 2 )]
+position = Vector2( 16, 40 )
+
+[node name="Bit_Minable28" parent="." instance=ExtResource( 2 )]
+position = Vector2( 24, 32 )
+
+[node name="Bit_Minable29" parent="." instance=ExtResource( 2 )]
+position = Vector2( 24, 24 )
+
+[node name="Bit_Minable30" parent="." instance=ExtResource( 2 )]
+position = Vector2( 32, 24 )
+
+[node name="Bit_Minable31" parent="." instance=ExtResource( 2 )]
+position = Vector2( 32, 16 )
+
+[node name="Bit_Minable32" parent="." instance=ExtResource( 2 )]
+position = Vector2( 32, 0 )
+
+[node name="Bit_Minable33" parent="." instance=ExtResource( 2 )]
+position = Vector2( 40, 24 )
+
+[node name="Bit_Minable34" parent="." instance=ExtResource( 2 )]
+position = Vector2( 40, 16 )
+
+[node name="Bit_Minable35" parent="." instance=ExtResource( 2 )]
+position = Vector2( 48, 16 )
+
+[node name="Bit_Minable36" parent="." instance=ExtResource( 2 )]
+position = Vector2( 48, 8 )
+
+[node name="Bit_Minable46" parent="." instance=ExtResource( 2 )]
+position = Vector2( 32, -8 )
+
+[node name="Bit_Minable47" parent="." instance=ExtResource( 2 )]
+position = Vector2( 24, -8 )
+
+[node name="Bit_Minable48" parent="." instance=ExtResource( 2 )]
+position = Vector2( 16, -8 )
+
+[node name="Bit_Minable49" parent="." instance=ExtResource( 2 )]
+position = Vector2( 16, -16 )
+
+[node name="Bit_Minable50" parent="." instance=ExtResource( 2 )]
+position = Vector2( 8, -8 )
+
+[node name="Bit_Minable37" parent="." instance=ExtResource( 2 )]
+position = Vector2( 40, 8 )
+
+[node name="Bit_Minable38" parent="." instance=ExtResource( 2 )]
+position = Vector2( 48, 24 )
+
+[node name="Bit_Minable39" parent="." instance=ExtResource( 2 )]
+position = Vector2( 48, 32 )
+
+[node name="Bit_Minable40" parent="." instance=ExtResource( 2 )]
+position = Vector2( 40, 32 )
+
+[node name="Bit_Minable41" parent="." instance=ExtResource( 2 )]
+position = Vector2( 56, 32 )
+
+[node name="Bit_Minable42" parent="." instance=ExtResource( 2 )]
+position = Vector2( 48, 40 )
+
+[node name="Bit_Minable43" parent="." instance=ExtResource( 2 )]
+position = Vector2( 56, 40 )
+
+[node name="Bit_Minable44" parent="." instance=ExtResource( 2 )]
+position = Vector2( 64, 48 )
+
+[node name="Bit_Minable45" parent="." instance=ExtResource( 2 )]
+position = Vector2( 64, 40 )
+
+[node name="Bit_Minable16" parent="." instance=ExtResource( 2 )]
+position = Vector2( -8, 16 )
+
+[node name="Bit_Minable17" parent="." instance=ExtResource( 2 )]
+position = Vector2( -8, 8 )

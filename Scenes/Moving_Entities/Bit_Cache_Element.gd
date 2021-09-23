@@ -1,6 +1,6 @@
 extends Node2D
 
-export var bit_string = "1"
+var bit_string = "1"
 var bit_string_base
 var frame_to_use
 
@@ -20,9 +20,9 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	if bit_string_base != bit_string:
-		frame_to_use = bit_mineable_dict[bit_string]
-		sprite.frame = frame_to_use
+	#if bit_string_base != bit_string:
+	frame_to_use = bit_mineable_dict[bit_string]
+	sprite.frame = frame_to_use
 
 func give_bit_string():
 	return bit_string

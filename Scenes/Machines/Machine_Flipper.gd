@@ -1,6 +1,7 @@
 extends StaticBody2D
 
-onready var Minable_Unit = preload("res://Scenes/Moving_Entities/Bit_Minable.tscn")
+#onready var Minable_Unit = preload("res://Scenes/Moving_Entities/Bit_Minable.tscn")
+onready var Buildable_Unit = preload("res://Scenes/Moving_Entities/Bit_Buildable.tscn")
 
 onready var animator = $AnimationPlayer
 onready var audio_player = $AudioStreamPlayer2D
@@ -25,6 +26,12 @@ var input_1_inv
 # Custom rotation handling
 var output_rotation_offset
 
+# vars for speedmode
+var base_make_time
+var base_input_check_time
+var make_timer
+var input_1_check_timer
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	spawned_instance_id = null
@@ -36,23 +43,41 @@ func _ready():
 		180: [-8, -8],
 		270: [0, -8]
 	}
+	
+	base_make_time = world_parameters.flipper_time * world_parameters.machine_speed_base
+	base_input_check_time = base_make_time / 10.0
 
 	enabled = false
 	input_1_inv = null
 	
-	var make_timer = Timer.new()
+	make_timer = Timer.new()
 	add_child(make_timer)
-	make_timer.set_wait_time(world_parameters.flipper_time)
+	make_timer.one_shot = true
+	make_timer.set_wait_time(base_make_time)
 	make_timer.connect("timeout", self, "_on_make_timeout")  # Check if there is a filled inventory
-	make_timer.start()
+	# make_timer.start()
 	
-	var input_1_check_timer = Timer.new()
+	input_1_check_timer = Timer.new()
 	add_child(input_1_check_timer)
-	input_1_check_timer.set_wait_time(world_parameters.flipper_time / 20)
+	input_1_check_timer.set_wait_time(base_input_check_time)
 	input_1_check_timer.connect("timeout", self, "_on_input_1_check_timeout")
 	input_1_check_timer.start()
 
 func _process(delta):
+	# Update for speed mode
+	if world_parameters.speed_mode_active:
+		var new_make_wait_time = base_make_time / world_parameters.speed_mode_factor
+		
+		if make_timer.get_wait_time()-0.01 > new_make_wait_time:  # FLOATING POINTS BRO
+			make_timer.set_wait_time(new_make_wait_time)
+		if input_1_check_timer.get_wait_time()-0.001 > new_make_wait_time / 10.0:
+			input_1_check_timer.set_wait_time(new_make_wait_time / 10.0)
+	else:
+		if make_timer.get_wait_time()+0.01 < base_make_time:
+			make_timer.set_wait_time(base_make_time)
+		if input_1_check_timer.get_wait_time()+0.001 < base_input_check_time:
+			input_1_check_timer.set_wait_time(base_input_check_time)
+	
 	if not animator.is_playing():
 		animator.play("Running")
 	
@@ -80,6 +105,7 @@ func _on_input_1_check_timeout():
 			if "Bit" in body.get_name():
 				input_1_inv = body.bit_string
 				body.mark_for_absorption = true
+				make_timer.start()
 
 
 func _on_make_timeout():
@@ -106,8 +132,8 @@ func _on_BlockageDetector_body_exited(body: Node) -> void:
 
 
 func produce_bit(bit_string):
-	#var buildable_unit_instance = Buildable_Unit.instance()
-	var buildable_unit_instance = Minable_Unit.instance()
+	var buildable_unit_instance = Buildable_Unit.instance()
+	#var buildable_unit_instance = Minable_Unit.instance()
 	
 	buildable_unit_instance.bit_string = bit_string
 	buildable_unit_instance.global_position = output1_location.global_position + Vector2(-4, -4)

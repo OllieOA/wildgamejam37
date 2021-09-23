@@ -1,6 +1,6 @@
 extends StaticBody2D
 
-var bit_string = "0"
+export var bit_string = "0"
 onready var Minable_Unit = preload("res://Scenes/Moving_Entities/Bit_Minable.tscn")
 
 onready var animator = $AnimationPlayer

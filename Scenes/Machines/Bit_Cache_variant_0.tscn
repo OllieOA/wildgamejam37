@@ -1,0 +1,58 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Scenes/Machines/Bit_Cache_variant_0.gd" type="Script" id=1]
+[ext_resource path="res://Scenes/Moving_Entities/Bit_Cache_Element.tscn" type="PackedScene" id=2]
+
+[node name="Bit_Cache" type="Node2D"]
+script = ExtResource( 1 )
+
+[node name="Bit_Minable" parent="." instance=ExtResource( 2 )]
+position = Vector2( 24, 16 )
+
+[node name="Bit_Minable2" parent="." instance=ExtResource( 2 )]
+position = Vector2( 8, 0 )
+
+[node name="Bit_Minable3" parent="." instance=ExtResource( 2 )]
+position = Vector2( 16, 0 )
+
+[node name="Bit_Minable4" parent="." instance=ExtResource( 2 )]
+position = Vector2( 16, 8 )
+
+[node name="Bit_Minable5" parent="." instance=ExtResource( 2 )]
+position = Vector2( 8, 8 )
+
+[node name="Bit_Minable6" parent="." instance=ExtResource( 2 )]
+position = Vector2( 0, 8 )
+
+[node name="Bit_Minable7" parent="." instance=ExtResource( 2 )]
+position = Vector2( 0, 16 )
+
+[node name="Bit_Minable8" parent="." instance=ExtResource( 2 )]
+position = Vector2( 8, 16 )
+
+[node name="Bit_Minable9" parent="." instance=ExtResource( 2 )]
+position = Vector2( 16, 16 )
+
+[node name="Bit_Minable10" parent="." instance=ExtResource( 2 )]
+position = Vector2( 24, 8 )
+
+[node name="Bit_Minable11" parent="." instance=ExtResource( 2 )]
+position = Vector2( 24, 0 )
+
+[node name="Bit_Minable12" parent="." instance=ExtResource( 2 )]
+position = Vector2( 32, 8 )
+
+[node name="Bit_Minable13" parent="." instance=ExtResource( 2 )]
+position = Vector2( -8, 0 )
+
+[node name="Bit_Minable14" parent="." instance=ExtResource( 2 )]
+position = Vector2( 16, 24 )
+
+[node name="Bit_Minable15" parent="." instance=ExtResource( 2 )]
+position = Vector2( 8, 24 )
+
+[node name="Bit_Minable16" parent="." instance=ExtResource( 2 )]
+position = Vector2( -8, 16 )
+
+[node name="Bit_Minable17" parent="." instance=ExtResource( 2 )]
+position = Vector2( -8, 8 )

@@ -1,0 +1,87 @@
+[
+	{
+		"Name": "ArbyG",
+		"Emotion": "Neutral",
+		"Text": "Ah, BLIP! Good to see you again!"
+	},
+	{
+		"Name": "BLIP",
+		"Emotion": "Confused",
+		"Text": "...Again? Who are you?"
+	},
+	{
+		"Name": "ArbyG",
+		"Emotion": "Sad",
+		"Text": "Oh, this always happens. I guess your memory didn't survive the last one!"
+	},
+	{
+		"Name": "BLIP",
+		"Emotion": "Confused",
+		"Text": "... ?"
+	},
+	{
+		"Name": "ArbyG",
+		"Emotion": "Happy",
+		"Text": "Not to worry! I'll explain! The computer we are in needs a reboot, it crashed..."
+	},
+	{
+		"Name": "ArbyG",
+		"Emotion": "Neutral",
+		"Text": "You are the Bits Logistics Implementation Program, or BLIP for short!"
+	},
+	{
+		"Name": "ArbyG",
+		"Emotion": "Happy",
+		"Text": "It's your job to give the right instructions to the reset FILE to reboot it!"
+	},
+	{
+		"Name": "BLIP",
+		"Emotion": "Happy",
+		"Text": "Oh! Fun!"
+	},
+	{
+		"Name": "ArbyG",
+		"Emotion": "Neutral",
+		"Text": "...and the right instructions to every FILE along the way..."
+	},
+	{
+		"Name": "BLIP",
+		"Emotion": "Confused",
+		"Text": "Oh... Fun?"
+	},
+	{
+		"Name": "ArbyG",
+		"Emotion": "Neutral",
+		"Text": "Well, let's get to it. Your base program has the CONVEYOR BELT and the MINER..."
+	},
+	{
+		"Name": "ArbyG",
+		"Emotion": "Neutral",
+		"Text": "The FILE to the left will get us into the next area. Hover your cursor on it to see what it needs."
+	},
+	{
+		"Name": "ArbyG",
+		"Emotion": "Neutral",
+		"Text": "Should be easy, right? I mean, you're literally built for it..."
+	},
+	{
+		"Name": "BLIP",
+		"Emotion": "Neutral",
+		"Text": "Okay... but who are you?"
+	},
+	{
+		"Name": "ArbyG",
+		"Emotion": "Happy",
+		"Text": "How rude of me.. I'm RBG, the graphics, or something. Call me ArbyG!"
+	},
+	{
+		"Name": "ArbyG",
+		"Emotion": "Happy",
+		"Text": "You can ask me for tips if you need to. I've watched you do this a few times..."
+	},
+	{
+		"Name": "BLIP",
+		"Emotion": "Happy",
+		"Text": "Good to meet you, ArbyG!"
+	}
+]

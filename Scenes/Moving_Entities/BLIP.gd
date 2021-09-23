@@ -133,8 +133,6 @@ func destroy_blip():
 	# Destroy and explode
 	
 	prevent_movement = true
-	var timer = Timer.new()
-	self.add_child(timer)
 	
 	# Add particle effect and remove sprite
 	var particle_effect = Particle_Explosion.instance()

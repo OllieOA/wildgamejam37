@@ -17,9 +17,12 @@ var bits_delivered: Dictionary = {}
 var quantity_delivered: Dictionary = {}
 var input_1_inv
 var input_2_inv
-var completed = false
+var completed = false  # CHANGE BACK
 var enable_finish
 var blip_in_range
+var base_input_check_time
+var input_1_check_timer
+var input_2_check_timer
 
 # Custom rotation handling
 var output_rotation_offset
@@ -48,27 +51,35 @@ func _ready():
 	input_2_inv = null
 	completed = false
 	
-	var make_timer = Timer.new()
-	add_child(make_timer)
-	make_timer.set_wait_time(world_parameters.flipper_time)
-	make_timer.connect("timeout", self, "_on_make_timeout")  # Check if there is a filled inventory
-	make_timer.start()
+	base_input_check_time = world_parameters.file_time
 	
-	var input_1_check_timer = Timer.new()
+	input_1_check_timer = Timer.new()
 	add_child(input_1_check_timer)
-	input_1_check_timer.set_wait_time(2 / 20)
+	input_1_check_timer.set_wait_time(base_input_check_time)
 	input_1_check_timer.connect("timeout", self, "_on_input_1_check_timeout")
 	input_1_check_timer.start()
 	
-	var input_2_check_timer = Timer.new()
+	input_2_check_timer = Timer.new()
 	add_child(input_2_check_timer)
-	input_2_check_timer.set_wait_time(world_parameters.flipper_time / 20)
+	input_2_check_timer.set_wait_time(base_input_check_time)
 	input_2_check_timer.connect("timeout", self, "_on_input_2_check_timeout")
 	input_2_check_timer.start()
 	
 	animator.assigned_animation = "Idle"
 
 func _process(delta):
+	# Update for speed mode
+	if world_parameters.speed_mode_active:
+		var new_input_wait_time = base_input_check_time / world_parameters.speed_mode_factor
+		if input_1_check_timer.get_wait_time()-0.001 > new_input_wait_time:
+			input_1_check_timer.set_wait_time(new_input_wait_time)
+		if input_2_check_timer.get_wait_time()-0.001 > new_input_wait_time:
+			input_2_check_timer.set_wait_time(new_input_wait_time)
+	else:
+		if input_1_check_timer.get_wait_time()+0.001 < base_input_check_time:
+			input_1_check_timer.set_wait_time(base_input_check_time)
+		if input_2_check_timer.get_wait_time()+0.001 < base_input_check_time:
+			input_2_check_timer.set_wait_time(base_input_check_time)
 	
 	if blip_in_range and completed:
 		if not prompt_player.visible:

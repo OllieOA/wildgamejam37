@@ -64,7 +64,7 @@ extents = Vector2( 4, 4 )
 
 [node name="Machine_Flipper" type="StaticBody2D"]
 collision_layer = 8
-collision_mask = 9
+collision_mask = 384
 script = ExtResource( 2 )
 
 [node name="Sprite" type="Sprite" parent="."]
@@ -111,6 +111,7 @@ polygon = PoolVector2Array( -7.5, 4.5, 23.5, 4.5, 23.5, 11.5, -7.5, 11.5, -7.5, 
 position = Vector2( -4, 4 )
 
 [node name="Input_Detector" type="Area2D" parent="Input1"]
+position = Vector2( 2, 0 )
 collision_layer = 520
 collision_mask = 304
 

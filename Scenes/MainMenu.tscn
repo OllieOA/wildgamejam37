@@ -1,0 +1,111 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://Assets/Art/UI/BLIP_Title_02.png" type="Texture" id=1]
+[ext_resource path="res://Scenes/MainMenu.gd" type="Script" id=2]
+[ext_resource path="res://Assets/Fonts/MainMenuSubtext.tres" type="DynamicFontData" id=3]
+[ext_resource path="res://UI/MainMenuSelection.tscn" type="PackedScene" id=4]
+
+[sub_resource type="Animation" id=1]
+resource_name = "TitleAnimation"
+length = 1.6
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.3, 0.6, 0.8, 1, 1.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2, 3, 4, 5 ]
+}
+
+[sub_resource type="DynamicFont" id=2]
+size = 36
+outline_size = 3
+outline_color = Color( 0, 0, 0, 1 )
+extra_spacing_top = -33
+font_data = ExtResource( 3 )
+
+[node name="MainMenu" type="Node2D"]
+script = ExtResource( 2 )
+
+[node name="Control" type="Control" parent="."]
+margin_right = 1920.0
+margin_bottom = 1080.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Sprite" type="Sprite" parent="."]
+scale = Vector2( 10, 10 )
+texture = ExtResource( 1 )
+centered = false
+hframes = 6
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Sprite"]
+anims/TitleAnimation = SubResource( 1 )
+
+[node name="MainMenuMusic" type="AudioStreamPlayer" parent="."]
+
+[node name="SplashText" type="Node2D" parent="."]
+position = Vector2( 1640, 816 )
+
+[node name="Label" type="Label" parent="SplashText"]
+margin_left = -240.0
+margin_top = 144.0
+margin_right = 348.0
+margin_bottom = 285.0
+rect_rotation = -45.0
+custom_fonts/font = SubResource( 2 )
+text = "MADE FOR THE 
+GODOT WILD JAM #37"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TimeDilation" type="Node2D" parent="."]
+position = Vector2( 1640, 816 )
+
+[node name="Label" type="Label" parent="TimeDilation"]
+margin_left = -1552.0
+margin_top = -288.0
+margin_right = -871.0
+margin_bottom = -147.0
+rect_rotation = 45.0
+custom_fonts/font = SubResource( 2 )
+text = "INCLUDES TIME DILATION
+KINDA"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PulseUp" type="Tween" parent="."]
+
+[node name="PulseUp2" type="Tween" parent="."]
+
+[node name="MainMenu_Selections" parent="." instance=ExtResource( 4 )]
+anchor_bottom = 0.5
+margin_left = 768.0
+margin_top = 376.0
+margin_right = 1152.0
+margin_bottom = 776.0
+
+[node name="Unfinished" type="Label" parent="."]
+margin_left = 1424.0
+margin_top = 264.0
+margin_right = 2012.0
+margin_bottom = 405.0
+custom_fonts/font = SubResource( 2 )
+text = "UNFINISHED :("
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[connection signal="tween_completed" from="PulseUp" to="." method="_on_PulseUp_tween_completed"]
+[connection signal="tween_completed" from="PulseUp2" to="." method="_on_PulseUp2_tween_completed"]

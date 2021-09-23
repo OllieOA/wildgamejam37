@@ -1,0 +1,115 @@
+[gd_scene load_steps=12 format=2]
+
+[ext_resource path="res://Assets/Fonts/dialogue_name.tres" type="DynamicFontData" id=1]
+[ext_resource path="res://Assets/Fonts/dialogue_text.tres" type="DynamicFontData" id=2]
+[ext_resource path="res://Assets/Art/Characters/BLIP_Neutral.png" type="Texture" id=3]
+[ext_resource path="res://Assets/Sounds/blip_voice.ogg" type="AudioStream" id=4]
+[ext_resource path="res://Assets/Sounds/arby_g_voice.ogg" type="AudioStream" id=5]
+[ext_resource path="res://Assets/Art/UI/ui_game_menu_base.png" type="Texture" id=6]
+[ext_resource path="res://Assets/Art/UI/ui_dialogue_done_indicator.png" type="Texture" id=7]
+[ext_resource path="res://UI/DialogueBox.gd" type="Script" id=8]
+
+[sub_resource type="DynamicFont" id=1]
+size = 30
+outline_size = 3
+outline_color = Color( 0, 0, 0, 1 )
+extra_spacing_top = -9
+font_data = ExtResource( 1 )
+
+[sub_resource type="DynamicFont" id=2]
+size = 24
+outline_size = 2
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 2 )
+
+[sub_resource type="Animation" id=3]
+resource_name = "Prompt"
+length = 0.8
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.4, 0.8 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1312, 208 ), Vector2( 1312, 224 ), Vector2( 1312, 208 ) ]
+}
+
+[node name="Control" type="Control"]
+pause_mode = 2
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="DialogueBox" type="NinePatchRect" parent="."]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -688.0
+margin_top = -344.0
+margin_right = 696.0
+margin_bottom = -64.0
+texture = ExtResource( 6 )
+region_rect = Rect2( -0.290051, -0.107242, 320.469, 320.501 )
+patch_margin_left = 50
+patch_margin_top = 50
+patch_margin_right = 50
+patch_margin_bottom = 50
+script = ExtResource( 8 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Name" type="RichTextLabel" parent="DialogueBox"]
+margin_left = 32.0
+margin_top = 8.0
+margin_right = 792.0
+margin_bottom = 88.0
+custom_fonts/normal_font = SubResource( 1 )
+text = " NAME:"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Text" type="RichTextLabel" parent="DialogueBox"]
+margin_left = 40.0
+margin_top = 88.0
+margin_right = 1344.0
+margin_bottom = 240.0
+custom_fonts/normal_font = SubResource( 2 )
+text = "WORDS GO HERE
+THIS IS A NEW LINE"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Indicator" type="Sprite" parent="DialogueBox"]
+position = Vector2( 1312, 215.401 )
+scale = Vector2( 5, 5 )
+texture = ExtResource( 7 )
+centered = false
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="DialogueBox/Indicator"]
+anims/Prompt = SubResource( 3 )
+
+[node name="Portrait" type="Sprite" parent="DialogueBox"]
+position = Vector2( 960, -176 )
+scale = Vector2( 20, 20 )
+texture = ExtResource( 3 )
+
+[node name="Timer" type="Timer" parent="DialogueBox"]
+
+[node name="Blip_voice" type="AudioStreamPlayer" parent="DialogueBox"]
+stream = ExtResource( 4 )
+volume_db = -10.0
+
+[node name="Argyb_voice" type="AudioStreamPlayer" parent="DialogueBox"]
+stream = ExtResource( 5 )
+volume_db = -10.0

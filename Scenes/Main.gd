@@ -7,29 +7,46 @@
 extends Node2D
 var total_ticks = 0
 var tick_time = 0.4
+onready var music_player = $GameMusic
+onready var margin_container = $CanvasLayer/MarginContainer
+onready var level_camera = $BLIP/MainCamera
+onready var blip_instance = $BLIP
+onready var cursor_instance = $GridCursor
+onready var background_square = $Background
 
-# Get children for debugging
-onready var blip = get_node("BLIP")
 onready var bit = get_node("Bit_Minable")
 
+var view = get_viewport_rect().size / 2
+var level_bound_r
+var level_bound_l
+var level_bound_u
+var level_bound_d
+
 func _ready():
-	# Establish a tick timer for belts
-	var timer = Timer.new()
-	add_child(timer)
-	timer.set_wait_time(tick_time)
-	timer.connect("timeout", self, "_on_Timer_timeout")
-	timer.start()
+	# Open in fullscreen
+	OS.window_fullscreen = true
+	
+	# Play background music
+	music_player.play()
+	margin_container.show()
+	
+	level_bound_r = 500
+	level_bound_l = 0
+	level_bound_u = 0
+	level_bound_d = 500
+	
+	# Figure out how big to draw the background
+	# Assume all levels are bounded at 0, 0
+	var horizontal_scale = level_bound_r / 1000.0
+	var vertical_scale = level_bound_d / 1000.0
+	
+	print(horizontal_scale)
+	
+	background_square.scale = Vector2(horizontal_scale, vertical_scale)
 
 
-func _on_Timer_timeout():
-	#print("DEBUG: BLIP VELOCITY is " + str(blip.display_velocity))
-	#print("DEBUG: BIT POS is " + str(bit.curr_position))
-	#print("DEBUG: BLIP POS is " + str(blip.curr_position))
-	#get_tree().call_group("belt_animations", "seek", 0.0)  # Sync animation
-	pass
-	
-	
-# TODO DISABLE THIS
-func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed("debug_unlock"):
-		unlocker.miner = true
+func _process(delta: float) -> void:
+	# Clamp BLIP
+	blip_instance.global_position.x = clamp(blip_instance.global_position.x, level_bound_l - 8, level_bound_r - 16)
+	blip_instance.global_position.y = clamp(blip_instance.global_position.y, level_bound_u - 12, level_bound_d - 24)
+

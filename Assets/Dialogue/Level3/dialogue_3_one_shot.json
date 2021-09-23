@@ -1,0 +1,32 @@
+[
+	{
+		"Name": "ArbyG",
+		"Emotion": "Confused",
+		"Text": "Wh...what? This FILE wants 0's AND 1's, but there's only caches of 0 available?"
+	},
+	{
+		"Name": "BLIP",
+		"Emotion": "Neutral",
+		"Text": "No, it's okay! That last file helped me remember some of my programming..."
+	},
+	{
+		"Name": "BLIP",
+		"Emotion": "Happy",
+		"Text": "Now I can FLIP bits! I can turn a 0 into a 1 or a 1 into a 0"
+	},
+	{
+		"Name": "ArbyG",
+		"Emotion": "Neutral",
+		"Text": "Okay! Do... do you need any managing?"
+	},
+	{
+		"Name": "BLIP",
+		"Emotion": "Confused",
+		"Text": "Umm, no thanks."
+	},
+	{
+		"Name": "ArbyG",
+		"Emotion": "Sad",
+		"Text": "Ah... Right then..."
+	}
+]
